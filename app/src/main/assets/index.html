@@ -9,15 +9,14 @@
 :root{--bg:#07111c;--panel:#0d1927;--panel2:#132235;--key:#172536;--key2:#dce8f7;--text:#f5f8ff;--muted:#9db0c8;--blue:#1684ff;--line:#24364b;--green:#39e99a;--shadow:0 10px 30px #0005}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#15283d 0,#07111c 60%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;min-height:100vh}
 button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
-.app{max-width:1180px;margin:auto;padding:18px}.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 4px 20px;gap:12px}.brand{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:750;letter-spacing:.2px}.brand-icon{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#2296ff,#0758dc);display:grid;place-items:center;font-size:24px;box-shadow:0 5px 20px #087dff55}.top-actions{display:flex;gap:8px}.ghost{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:10px 13px}
-.menu-container{position:relative;display:inline-block}.menu-dropdown{position:absolute;right:0;top:calc(100% + 6px);background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:none;flex-direction:column;min-width:150px;z-index:99;overflow:hidden}.menu-dropdown.show{display:flex}.menu-dropdown button{background:none;border:none;padding:12px 16px;text-align:left;width:100%;color:var(--text);font-size:14px}.menu-dropdown button:hover{background:var(--panel2)}
-.layout{display:grid;grid-template-columns:minmax(290px,390px) 1fr;gap:18px;align-items:start}.home-calculator{max-width:560px;width:100%;margin:4px auto 0}.back-button{margin:0 0 14px}main[hidden]{display:none!important}#templatesPage .section{margin-top:10px}#toolPage .tool-panel{max-width:760px;margin:0 auto}.card{background:linear-gradient(145deg,#101d2c,#09131f);border:1px solid #2b4058;border-radius:23px;box-shadow:var(--shadow);overflow:hidden}.calculator{padding:17px}.calc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.calc-head h2{font-size:16px;margin:0;font-weight:650}.calc-display{min-height:190px;padding:20px 14px 24px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;border-bottom:1px solid var(--line);overflow:hidden}.expression{color:#b8c8dc;font-size:18px;min-height:28px;overflow-wrap:anywhere;text-align:right}.result{font-size:clamp(38px,7vw,50px);font-weight:500;letter-spacing:-1px;max-width:100%;overflow-wrap:anywhere}.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}#keys{position:relative;isolation:isolate;overflow:hidden;border-radius:15px}.key{height:82px;border-radius:14px;background:linear-gradient(145deg,#1b2a3b,#121e2b);font-size:24px;transition:transform .12s,filter .12s;box-shadow:inset 0 1px #ffffff09;position:relative;isolation:isolate;overflow:hidden}.key:hover{filter:brightness(1.2)}.key:active{transform:scale(.96)}.key{border:1px solid transparent;position:relative;isolation:isolate;overflow:hidden}
+.app{max-width:1180px;margin:auto;padding:18px}.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 4px 20px;gap:12px}.brand{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:750;letter-spacing:.2px}.brand-icon{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#2296ff,#0758dc);display:grid;place-items:center;font-size:24px;box-shadow:0 5px 20px #087dff55}.top-actions{display:flex;gap:8px}.ghost{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:10px 13px}.layout{display:grid;grid-template-columns:minmax(290px,390px) 1fr;gap:18px;align-items:start}.home-calculator{max-width:560px;width:100%;margin:4px auto 0}.back-button{margin:0 0 14px}main[hidden]{display:none!important}#templatesPage .section{margin-top:10px}#toolPage .tool-panel{max-width:760px;margin:0 auto}.card{background:linear-gradient(145deg,#101d2c,#09131f);border:1px solid #2b4058;border-radius:23px;box-shadow:var(--shadow);overflow:hidden}.calculator{padding:17px}.calc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.calc-head h2{font-size:16px;margin:0;font-weight:650}.calc-display{min-height:190px;padding:20px 14px 24px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;border-bottom:1px solid var(--line);overflow:hidden}.expression{color:#b8c8dc;font-size:18px;min-height:28px;overflow-wrap:anywhere;text-align:right}.result{font-size:clamp(38px,7vw,50px);font-weight:500;letter-spacing:-1px;max-width:100%;overflow-wrap:anywhere}.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}#keys{position:relative;isolation:isolate;overflow:hidden;border-radius:15px}.key{height:82px;border-radius:14px;background:linear-gradient(145deg,#1b2a3b,#121e2b);font-size:24px;transition:transform .12s,filter .12s;box-shadow:inset 0 1px #ffffff09;position:relative;isolation:isolate;overflow:hidden}.key:hover{filter:brightness(1.2)}.key:active{transform:scale(.96)}.key{border:1px solid transparent;position:relative;isolation:isolate;overflow:hidden}
 .key-ripple{position:absolute;inset:1px;border:2px solid transparent;border-radius:inherit;pointer-events:none;z-index:8;opacity:0;box-shadow:0 0 0 0 transparent;transition:opacity .18s ease,box-shadow .55s ease,border-color .25s ease;will-change:opacity,box-shadow}
 .tool-nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.tool-nav .ghost{display:inline-flex;align-items:center;gap:5px}.key.op{background:linear-gradient(145deg,#0759ad,#07356c);color:#38a2ff}.key.equal{background:linear-gradient(145deg,#248dff,#0871ef);color:white}.key.zero{grid-column:span 2}.light{--bg:#edf4fc;--panel:#fff;--panel2:#e4edf8;--text:#101a2b;--muted:#5f7088;--key:#e1ebf7;--key2:#dce8f7;--line:#cfdaea;--shadow:0 10px 28px #1e47701a;background:#eef4fb;color:var(--text)}.light .card{background:linear-gradient(145deg,#fff,#f6f9ff);border-color:#d6e0ee}.light .key{background:linear-gradient(145deg,#e7eff9,#d9e5f4);color:#101a2b;box-shadow:inset 0 1px #fff}.light .key.op{background:#2388ff;color:#fff}.light .key.equal{background:#167dff;color:#fff}.light .expression{color:#4b607c}
 .content{display:grid;gap:18px}.section{padding:18px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px;font-size:17px}.template-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.template{display:flex;align-items:center;text-align:left;gap:10px;padding:12px 10px;background:#111f2e;border:1px solid #24384e;border-radius:14px;min-width:0;transition:.15s}.template:hover,.template.active{border-color:#218dff;background:#142c44}.light .template{background:#f4f8fd;border-color:#d8e3f0}.light .template:hover,.light .template.active{background:#e6f2ff;border-color:#2388ff}.ico{flex:none;width:37px;height:37px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,#2198ff,#0759d7);font-size:19px}.template strong{display:block;font-size:12px;line-height:1.35}.template small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.tool-panel{padding:20px;min-height:260px}.tool-panel h2{margin:0 0 7px;font-size:21px}.sub{margin:0 0 20px;color:var(--muted);font-size:13px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field{display:flex;flex-direction:column;gap:7px;color:var(--muted);font-size:12px}.field input,.field select{width:100%;min-width:0;background:#0a1522;color:var(--text);border:1px solid #31455d;border-radius:11px;padding:12px;font-size:15px;outline:none}.light .field input,.light .field select{background:#fff;border-color:#cddaea}.primary{background:linear-gradient(135deg,#238fff,#0872ee);padding:12px 16px;border-radius:11px;font-weight:650;margin-top:15px;width:100%}.output{margin-top:15px;padding:15px;border:1px solid var(--line);border-radius:13px;background:#0b1826;line-height:1.6}.light .output{background:#f4f8fd}.output strong{font-size:25px;color:var(--green)}.light .output strong{color:#078e61}.full{grid-column:1/-1}.templates-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.templates-drawer{margin-bottom:18px}.templates-drawer[hidden]{display:none}.list-item{display:flex;gap:10px;align-items:center;padding:11px;background:#101e2c;border:1px solid var(--line);border-radius:12px;text-align:left}.light .list-item{background:#f5f8fd}.list-item span:last-child{font-size:13px}.list-item small{display:block;color:var(--muted);font-size:11px;margin-top:2px}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.feature{padding:13px;text-align:center;border:1px solid var(--line);border-radius:14px;color:var(--muted);font-size:12px}.feature b{display:block;color:var(--text);font-size:14px;margin-bottom:5px}.foot{text-align:center;color:var(--muted);font-size:12px;padding:22px 0 5px}.notice{font-size:11px;color:var(--muted);margin-top:9px;line-height:1.5}
 @media(max-width:850px){.layout{grid-template-columns:1fr}.calculator{max-width:560px;width:100%;margin:auto}.template-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.content{grid-row:2}.templates-list{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.app{padding:10px}.topbar{padding:8px 2px 15px}.brand{font-size:17px}.brand-icon{width:36px;height:36px}.ghost{padding:9px 10px}.calculator{padding:15px;border-radius:20px}.key{height:76px}.template-grid{grid-template-columns:1fr 1fr}.template{padding:9px 7px;gap:7px}.ico{width:32px;height:32px;font-size:16px}.template strong{font-size:11px}.section,.tool-panel{padding:14px}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.templates-list{grid-template-columns:1fr}.features{grid-template-columns:1fr}.result{font-size:42px}}
 
+/* Rewarded-ad template access gate */
 .ad-gate-backdrop{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:18px;background:#020812cc;backdrop-filter:blur(5px)}
 .ad-gate-backdrop.show{display:flex}
 .ad-gate{width:min(100%,390px);padding:22px;border:1px solid #2b4562;border-radius:20px;background:linear-gradient(145deg,#132438,#081321);box-shadow:0 20px 70px #0009;text-align:center}
@@ -33,15 +32,7 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
 </header>
 <main id="homePage">
  <section class="card calculator home-calculator" aria-label="Calculator">
-  <div class="calc-head">
-    <h2>Calculator</h2>
-    <div class="menu-container">
-      <button class="ghost" id="menuBtn" aria-label="More options">⋮</button>
-      <div class="menu-dropdown" id="menuDropdown">
-        <button id="privacyPolicyBtn">Privacy Policy</button>
-      </div>
-    </div>
-  </div>
+  <div class="calc-head"><h2>Calculator</h2></div>
   <div class="calc-display"><div class="expression" id="expression"></div><div class="result" id="result">0</div></div>
   <div class="keys" id="keys">
    <button class="key" data-action="clear">C</button><button class="key" data-action="back">⌫</button><button class="key" data-value="%">%</button><button class="key op" data-value="÷">÷</button>
@@ -51,7 +42,6 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
    <button class="key zero" data-value="0">0</button><button class="key" data-value=".">.</button><button class="key equal" data-action="equal">=</button>
   </div>
  </section>
- <div id="faraziAdContainer"></div>
 </main>
 <main id="historyPage" hidden>
  <section class="card section">
@@ -66,6 +56,9 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
   <div class="tool-nav"><button class="ghost" id="templatesHome">⌂ Home</button></div>
   <h2 class="section-title">Templates <span style="color:var(--muted);font-size:12px;font-weight:400">All calculators & converters</span></h2>
   <div class="template-grid" id="allList"></div>
+  
+  <!-- Banner Ad Slot (Template list-er niche faka jagay 10:1 ratio control er sathe) -->
+  <div id="banner-ad-slot" style="margin-top: 18px; min-height: 60px; text-align: center;"></div>
  </section>
 </main>
 <main id="toolPage" hidden>
@@ -80,124 +73,235 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
  <section class="ad-gate">
   <h3 id="adGateTitle">Unlock All Templates</h3>
   <p>Watch one rewarded ad to unlock all calculator templates for 7 days.</p>
+  
+  <!-- Firebase custom rewarded ad container inside ad gate -->
+  <div id="firebase-rewarded-container" style="margin-bottom: 12px; display: none;"></div>
+
   <button class="primary" id="watchRewardAd">▶ Watch Ad & Unlock 7 Days</button>
   <div class="ad-gate-status" id="adGateStatus" aria-live="polite"></div>
   <button class="ghost gate-cancel" id="cancelRewardAd">Not now</button>
  </section>
 </div>
+
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-const tools=[
-['BMI Calculator','⚖️','Check your body mass index','bmi'],['Age Calculator','🎂','Find your exact age','age'],['Loan Calculator','🏦','Calculate monthly payment','loan'],['EMI Calculator','▦','EMI and total amount','emi'],['Percentage Calculator','％','Find percentage value','percent'],['Currency Converter','💱','Convert currencies with daily online rates','currency'],['Time Zone','🌐','Current world times and difference from Bangladesh','timezone'],['Unit Converter','⇄','Choose a measurement category','unit'],['Discount Calculator','🏷️','Calculate discount price','discount'],['BMR Calculator','🔥','Estimate basal metabolic rate','bmr'],['Water Intake','💧','Estimate daily water needs','water'],['Calorie Calculator','🍎','Estimate daily calories','calorie'],['Date Calculator','📅','Calculate date differences','date'],['Time Calculator','◷','Calculate time durations','time'],['Sales Tax Calculator','🧾','Add sales tax to a price','tax'],['Savings Calculator','💰','Estimate savings growth','savings'],['Fuel Cost Calculator','⛽','Estimate trip fuel costs','fuel'],['GPA Calculator','📘','Calculate GPA from subject grades','gpa'],['Ratio Calculator','⚖','Simplify a ratio','ratio'],['Average Calculator','∑','Find the average','average'],['Length Converter','↔','Convert length units','length'],['Weight Converter','⚖','Convert mass/weight units','weight'],['Temperature Converter','🌡️','Convert temperature units','temp'],['Volume Converter','🧪','Convert volume units','volume'],['Speed Converter','🚀','Convert speed units','speed'],['Area Calculator','▧','Calculate rectangle area','area'],['Electricity Cost','⚡','Estimate electricity bill','electricity']
-];
-const $=id=>document.getElementById(id); let expression='',done=false;
+<!-- Firebase & 10:1 Ratio Rotation Logic Script -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const faraziAdDatabase = [
-  { title: "Farazi Ad Network", desc: "Monetize your Telegram Mini Apps and Android Apps easily.", cta: "Join Now", link: "https://sites.google.com/view/privacy-policy-farazi-group/home" },
-  { title: "Special Calculator Offer", desc: "Unlock premium tools and templates with zero friction.", cta: "Explore", link: "https://sites.google.com/view/privacy-policy-farazi-group/home" }
-];
+const firebaseConfig = {
+  apiKey: "AIzaSyDt-ZO4QU4q_0oNZxeCuFubgBTVkBwBDMc",
+  authDomain: "farazi-advertising.firebaseapp.com",
+  projectId: "farazi-advertising",
+  storageBucket: "farazi-advertising.firebasestorage.app",
+  messagingSenderId: "89663103201",
+  appId: "1:89663103201:web:64e75e2cade189e7ce57a0",
+  measurementId: "G-CFHXBGJ01X"
+};
 
-function getRandomFaraziAd() {
-  const randomIndex = Math.floor(Math.random() * faraziAdDatabase.length);
-  return faraziAdDatabase[randomIndex];
-}
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-function showFaraziDatabaseAd() {
-  const container = document.getElementById('faraziAdContainer');
-  if (!container) return;
-  const adData = getRandomFaraziAd();
-  container.innerHTML = `
-    <div style="position:relative; background:var(--panel2); border:1px solid var(--line); border-radius:14px; padding:15px; margin:15px 0; box-shadow:var(--shadow);">
-      <button onclick="this.parentElement.style.display='none'" style="position:absolute; top:8px; right:8px; background:none; border:none; color:var(--muted); font-size:16px; cursor:pointer; padding:4px 8px;" aria-label="Close Ad">✕</button>
-      <span style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Farazi Advertising</span>
-      <h4 style="margin:5px 0 8px; font-size:15px; color:var(--text);">${adData.title}</h4>
-      <p style="margin:0 0 12px; font-size:13px; color:var(--muted);">${adData.desc}</p>
-      <a href="${adData.link}" target="_blank" style="display:inline-block; background:var(--blue); color:white; padding:8px 14px; border-radius:8px; font-size:12px; text-decoration:none; font-weight:600;">${adData.cta}</a>
-    </div>
-  `;
-}
+const CURRENT_APP_ID = "test_app_01";
+const CURRENT_APP_NAME = "Multi Calculator";
 
-function triggerHybridAd() {
-  const rotationCount = Number(localStorage.getItem('multiCalcAdRotation') || 0) + 1;
-  localStorage.setItem('multiCalcAdRotation', rotationCount);
-  if (rotationCount % 10 === 0) {
-    showFaraziDatabaseAd();
-  } else {
-    if (window.Android && typeof window.Android.showRewardedAd === 'function') {
-      try { window.Android.showRewardedAd('209664286'); } catch (err) { console.error("Start.io ad error:", err); }
-    }
-  }
-}
-
-const menuBtn = $('menuBtn');
-const menuDropdown = $('menuDropdown');
-if (menuBtn && menuDropdown) {
-  menuBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    menuDropdown.classList.toggle('show');
-  });
-  document.addEventListener('click', () => {
-    menuDropdown.classList.remove('show');
-  });
-  $('privacyPolicyBtn').addEventListener('click', () => {
-    if (window.Android && typeof window.Android.openPrivacyPolicy === 'function') {
-      window.Android.openPrivacyPolicy();
-    } else {
-      window.open('https://sites.google.com/view/privacy-policy-farazi-group/home', '_blank');
-    }
-  });
-}
-
-const REWARDED_AD_UNIT_ID = 'ca-app-pub-2754574676620387/6093293644';
 const TEMPLATE_UNLOCK_KEY = 'multiCalcTemplatesUnlockedUntil';
 const TEMPLATE_UNLOCK_MS = 7 * 24 * 60 * 60 * 1000;
 let pendingTemplateAccess = false;
 let pendingToolId = null;
+let activeAdId = null;
+let activeAdUrl = "#";
 
-function hasTemplateAccess(){
+window.hasTemplateAccess = function() {
   const until = Number(localStorage.getItem(TEMPLATE_UNLOCK_KEY) || 0);
   return Number.isFinite(until) && Date.now() < until;
 }
-function openAdGate(){
+
+window.openAdGate = function() {
   pendingTemplateAccess = true;
-  $('adGateStatus').textContent = '';$('adGateBackdrop').classList.add('show');
+  document.getElementById('adGateStatus').textContent = '';
+  document.getElementById('adGateBackdrop').classList.add('show');
 }
-function closeAdGate(){
-  $('adGateBackdrop').classList.remove('show');
+
+window.closeAdGate = function() {
+  document.getElementById('adGateBackdrop').classList.remove('show');
+  const slot = document.getElementById('firebase-rewarded-container');
+  if (slot) { slot.style.display = 'none'; slot.innerHTML = ''; }
   pendingTemplateAccess = false;
 }
-function continueToTemplates(){
+
+function continueToTemplates() {
   closeAdGate();
-  showPage('templates');
+  window.showPage('templates');
 }
-function startRewardedAd(){
-  const status = $('adGateStatus');
-  if (hasTemplateAccess()) { continueToTemplates(); return; }
-  triggerHybridAd();
-  if (window.Android && typeof window.Android.showRewardedAd === 'function') {
-    status.textContent = 'Loading rewarded ad…';
-    try { window.Android.showRewardedAd(REWARDED_AD_UNIT_ID); } catch (err) { status.textContent = 'Could not start the ad. Please try again.'; }
-  } else {
-    status.textContent = 'AdMob needs the Android app bridge; it cannot play an AdMob ad from this HTML file alone.';
+
+// 10:1 Ratio Banner Ad Loader (Template list er niche faka jagay)
+async function loadBannerAdWithRatio() {
+  try {
+    let count = Number(localStorage.getItem('farazi_ad_ratio_count') || 0);
+    count++;
+    localStorage.setItem('farazi_ad_ratio_count', count);
+
+    const bannerSlot = document.getElementById('banner-ad-slot');
+    if (!bannerSlot) return;
+
+    // Rule: Every 10th impression loads Firebase Custom Ad, others show Start.io banner slot
+    if (count >= 10) {
+      localStorage.setItem('farazi_ad_ratio_count', '0');
+
+      const adsSnap = await getDocs(collection(db, "ads"));
+      let availableAds = [];
+      adsSnap.forEach(docSnap => {
+        const ad = docSnap.data();
+        if (ad.targetApp === "All Apps" || ad.targetApp === CURRENT_APP_ID) {
+          availableAds.push({ id: docSnap.id, ...ad });
+        }
+      });
+
+      if (availableAds.length > 0) {
+        const randAd = availableAds[Math.floor(Math.random() * availableAds.length)];
+        activeAdId = randAd.id;
+        activeAdUrl = randAd.targetLink || "#";
+
+        bannerSlot.style.display = 'block';
+        bannerSlot.innerHTML = `
+          <div id="custom-banner-card" style="background:#182032; padding:8px; border-radius:10px; position:relative; border:1px solid #2b4562;">
+            <button onclick="document.getElementById('custom-banner-card').style.display='none'" style="position:absolute; top:4px; right:4px; background:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer; font-size:10px;">&times;</button>
+            <div onclick="window.clickCustomBannerAd()" style="cursor:pointer; text-align:center;">
+              <img src="${randAd.imageUrl}" style="width:100%; height:75px; object-fit:cover; border-radius:6px;">
+              <p style="color:white; font-size:10px; margin:4px 0 0 0; font-weight:bold;">${randAd.title}</p>
+            </div>
+          </div>
+        `;
+
+        await updateDoc(doc(db, "ads", activeAdId), { impressions: increment(1) });
+        return;
+      }
+    }
+
+    // Default: Start.io Banner Ad Slot placeholder
+    bannerSlot.innerHTML = `<!-- Start.io Banner Ad Integration Slot -->`;
+  } catch (err) {
+    console.error("Banner ad load error:", err);
   }
 }
+
+window.clickCustomBannerAd = async function() {
+  if (activeAdId) {
+    await updateDoc(doc(db, "ads", activeAdId), { clicks: increment(1) });
+    if (activeAdUrl !== "#") {
+      window.open(activeAdUrl, '_blank');
+    }
+  }
+}
+
+// Rewarded Ad Gate Integration for Templates Unlock
+const REWARDED_AD_UNIT_ID = 'ca-app-pub-2754574676620387/6093293644';
+
+function startRewardedAd(){
+  const status = document.getElementById('adGateStatus');
+  const rewardedContainer = document.getElementById('firebase-rewarded-container');
+
+  if (window.hasTemplateAccess()) { 
+    continueToTemplates(); 
+    return; 
+  }
+
+  status.textContent = 'Loading rewarded ad…';
+
+  // Native Android AdMob Rewarded Bridge or Firebase custom rewarded fallback
+  if (window.Android && typeof window.Android.showRewardedAd === 'function') {
+    try {
+      window.Android.showRewardedAd(REWARDED_AD_UNIT_ID);
+    } catch (err) {
+      status.textContent = 'Could not start the ad. Please try again.';
+    }
+  } else {
+    // Web / Firebase Rewarded Ad simulation fallback
+    loadFirebaseRewardedAd(rewardedContainer, status);
+  }
+}
+
+async function loadFirebaseRewardedAd(container, statusText) {
+  try {
+    const adsSnap = await getDocs(collection(db, "ads"));
+    let ads = [];
+    adsSnap.forEach(docSnap => {
+      const ad = docSnap.data();
+      if (ad.targetApp === "All Apps" || ad.targetApp === CURRENT_APP_ID) {
+        ads.push({ id: docSnap.id, ...ad });
+      }
+    });
+
+    if (ads.length > 0) {
+      const randAd = ads[Math.floor(Math.random() * ads.length)];
+      activeAdId = randAd.id;
+      activeAdUrl = randAd.targetLink || "#";
+
+      container.style.display = 'block';
+      container.innerHTML = `
+        <div style="background:#182032; padding:8px; border-radius:10px; text-align:left;">
+          <img src="${randAd.imageUrl}" style="width:100%; height:90px; object-fit:cover; border-radius:6px;">
+          <p style="color:white; font-size:11px; margin:4px 0 0 0; font-weight:bold;">${randAd.title}</p>
+        </div>
+      `;
+      statusText.textContent = 'Ad loaded! Unlocking in 3 seconds...';
+
+      await updateDoc(doc(db, "ads", activeAdId), { impressions: increment(1) });
+
+      setTimeout(() => {
+        grantRewardAndUnlock();
+      }, 3000);
+    } else {
+      statusText.textContent = 'No ads available. Unlocking directly...';
+      setTimeout(grantRewardAndUnlock, 1500);
+    }
+  } catch (err) {
+    statusText.textContent = 'Fallback unlocking templates...';
+    setTimeout(grantRewardAndUnlock, 1500);
+  }
+}
+
 window.onAdRewardEarned = function(){
+  grantRewardAndUnlock();
+};
+
+window.onAdRewardFailed = function(message){
+  document.getElementById('adGateStatus').textContent = message || 'Ad was not completed. Templates remain locked.';
+};
+
+function grantRewardAndUnlock() {
   localStorage.setItem(TEMPLATE_UNLOCK_KEY, String(Date.now() + TEMPLATE_UNLOCK_MS));
   const toolId = pendingToolId;
   pendingToolId = null;
-  if (toolId) { closeAdGate(); openTool(toolId); }
-  else if (pendingTemplateAccess) continueToTemplates();
-  else closeAdGate();
-};
-window.onAdRewardFailed = function(message){
-  $('adGateStatus').textContent = message || 'Ad was not completed. Templates remain locked.';
-};
-$('watchRewardAd').addEventListener('click', startRewardedAd);
-$('cancelRewardAd').addEventListener('click', closeAdGate);$('adGateBackdrop').addEventListener('click', e => {
-  if (e.target === $('adGateBackdrop')) closeAdGate();
+  if (toolId) { 
+    closeAdGate(); 
+    window.openTool(toolId); 
+  } else if (pendingTemplateAccess) {
+    continueToTemplates();
+  } else {
+    closeAdGate();
+  }
+}
+
+document.getElementById('watchRewardAd').addEventListener('click', startRewardedAd);
+document.getElementById('cancelRewardAd').addEventListener('click', closeAdGate);
+document.getElementById('adGateBackdrop').addEventListener('click', e => {
+  if (e.target === document.getElementById('adGateBackdrop')) closeAdGate();
 });
+
+// Trigger banner ad load when template page loads
+document.addEventListener('DOMContentLoaded', () => {
+  loadBannerAdWithRatio();
+});
+</script>
+
+<script>
+const tools=[
+['BMI Calculator','⚖️','Check your body mass index','bmi'],['Age Calculator','🎂','Find your exact age','age'],['Loan Calculator','🏦','Calculate monthly payment','loan'],['EMI Calculator','▦','EMI and total amount','emi'],['Percentage Calculator','％','Find percentage value','percent'],['Currency Converter','💱','Convert currencies with daily online rates','currency'],['Time Zone','🌐','Current world times and difference from Bangladesh','timezone'],['Unit Converter','⇄','Choose a measurement category','unit'],['Discount Calculator','🏷️','Calculate discount price','discount'],['BMR Calculator','🔥','Estimate basal metabolic rate','bmr'],['Water Intake','💧','Estimate daily water needs','water'],['Calorie Calculator','🍎','Estimate daily calories','calorie'],['Date Calculator','📅','Calculate date differences','date'],['Time Calculator','◷','Calculate time durations','time'],['Sales Tax Calculator','🧾','Add sales tax to a price','tax'],['Savings Calculator','💰','Estimate savings growth','savings'],['Fuel Cost Calculator','⛽','Estimate trip fuel costs','fuel'],['GPA Calculator','📘','Calculate GPA from subject grades','gpa'],['Ratio Calculator','⚖','Simplify a ratio','ratio'],['Average Calculator','∑','Find the average','average'],['Length Converter','↔','Convert length units','length'],['Weight Converter','⚖','Convert mass/weight units','weight'],['Temperature Converter','🌡️','Convert temperature units','temp'],['Volume Converter','🧪','Convert volume units','volume'],['Speed Converter','🚀','Convert speed units','speed'],['Area Calculator','▧','Calculate rectangle area','area'],['Electricity Cost','⚡','Estimate electricity bill','electricity']
+];
+const $=id=>document.getElementById(id); let expression='',done=false;
 
 function safeCalc(s){if(!s.trim())return 0;s=s.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/(\d+(?:\.\d+)?)%/g,'($1/100)');if(!/^[\d+\-*/().\%\s]+$/.test(s))throw Error('Invalid expression');return Function('"use strict";return ('+s+')')()}
 function showCalc(){ $('expression').textContent=expression;try{$('result').textContent=expression?String(Number(safeCalc(expression).toPrecision(10))):'0'}catch{$('result').textContent='…'}}
@@ -210,7 +314,6 @@ const THEME_KEY='multiCalcTheme';
 function applyTheme(theme){document.body.classList.toggle('light',theme==='light');$('themeBtn').textContent=theme==='light'?'☾ Dark':'☼ Light';}
 applyTheme(localStorage.getItem(THEME_KEY)||'dark');
 $('themeBtn').onclick=()=>{const next=document.body.classList.contains('light')?'dark':'light';localStorage.setItem(THEME_KEY,next);applyTheme(next);};
-
 const HISTORY_KEY='multiCalcDailyHistory';
 function todayKey(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 function getHistory(){let h;try{h=JSON.parse(localStorage.getItem(HISTORY_KEY)||'null')}catch{};if(!h||h.date!==todayKey())h={date:todayKey(),items:[]};localStorage.setItem(HISTORY_KEY,JSON.stringify(h));return h;}
@@ -218,10 +321,22 @@ function addHistory(expression,result){const h=getHistory();h.items.unshift({exp
 function renderHistory(){const h=getHistory();$('historyDate').textContent=h.date;$('historyList').innerHTML=h.items.length?h.items.map(x=>`<div class="list-item" style="display:block;margin-bottom:8px"><div style="color:var(--muted);font-size:12px">${x.time}</div><div>${x.expression}</div><strong style="font-size:18px">${x.result}</strong></div>`).join(''):'<p class="notice">No calculations saved today yet.</p>';}
 $('historyBtn').onclick=()=>{renderHistory();showPage('history');};$('historyHome').onclick=()=>showPage('home');
 $('clearHistory').onclick=()=>{localStorage.setItem(HISTORY_KEY,JSON.stringify({date:todayKey(),items:[]}));renderHistory();};$('allBtn').onclick=()=>showPage('templates');
-function showPage(page){$('homePage').hidden=page!=='home';$('templatesPage').hidden=page!=='templates';$('toolPage').hidden=page!=='tool';$('historyPage').hidden=page!=='history';$('allBtn').style.display=page==='home'?'':'none';$('historyBtn').style.display=page==='home'?'':'none';if(window.Android&&typeof window.Android.setTemplateBannerVisible==='function'){window.Android.setTemplateBannerVisible(page==='templates'\vert{}\vert{}page==='tool');}window.scrollTo({top:0,behavior:'smooth'});}$('templatesHome').onclick=()=>showPage('home');
+
+window.showPage = function(page){
+  $('homePage').hidden=page!=='home';$('templatesPage').hidden=page!=='templates';
+  $('toolPage').hidden=page!=='tool';$('historyPage').hidden=page!=='history';
+  $('allBtn').style.display=page==='home'?'':'none';$('historyBtn').style.display=page==='home'?'':'none';
+  if(window.Android&&typeof window.Android.setTemplateBannerVisible==='function'){
+    window.Android.setTemplateBannerVisible(page==='templates'||page==='tool');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+$('templatesHome').onclick=()=>showPage('home');
 $('backHome').onclick=()=>showPage('home');$('backTemplates').onclick=()=>showPage('templates');
 showPage('home');
 
+// Ripple Light Effect 100% Intact
 function playKeyRipple(clicked){
   const keys=[...$('keys').querySelectorAll('.key')];
   const a=clicked.getBoundingClientRect(), cx=a.left+a.width/2, cy=a.top+a.height/2;
@@ -252,43 +367,53 @@ $('keys').addEventListener('click',e=>{
  const clicked=e.target.closest('.key'); if(!clicked)return;
  playKeyRipple(clicked);
 });
+
 const field=(label,id,val,type='number',step='any')=>`<label class="field">${label}<input id="${id}" type="${type}" value="${val}" ${type==='number'?`step="${step}"`:''}></label>`;
 const select=(label,id,opts)=>`<label class="field">${label}<select id="${id}">${opts.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select></label>`;
 function form(body,button='Calculate'){return `<div class="form-grid">${body}</div><button class="primary" id="runTool">${button}</button><div id="out"></div>`}
 function output(s){$('out').innerHTML=`<div class="output">${s}</div>`;const plain=s.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();if(plain)addHistory($('toolTitle').textContent,plain);}
-function openTool(id){if(!hasTemplateAccess()){pendingToolId=id;openAdGate();return;}let t=tools.find(x=>x[3]===id)||tools[0];showPage('tool');$('toolTitle').textContent=t[0];$('toolSub').textContent=t[2];let c='';
-switch(id){
-case'bmi':c=form(field('Weight (kg)','w',70)+field('Height (cm)','h',175));break;
-case'age':c=form(field('Date of birth','dob','2000-01-01','date')+field('Calculate as of','asof',new Date().toISOString().slice(0,10),'date'));break;
-case'loan':case'emi':c=form(field('Loan amount','amount',100000)+field('Annual interest (%)','rate',9)+field('Term (years)','years',3));break;
-case'percent':c=form(field('Percentage (%)','p',20)+field('Number','n',250));break;
-case'tip':c=form(field('Bill amount','bill',1000)+field('Tip (%)','tip',10)+field('People','people',2));break;
-case'currency':{const currencies=[['USD','🇺🇸 US Dollar (USD)'],['BDT','🇧🇩 Bangladeshi Taka (BDT)'],['EUR','🇪🇺 Euro (EUR)'],['GBP','🇬🇧 British Pound (GBP)'],['INR','🇮🇳 Indian Rupee (INR)'],['PKR','🇵🇰 Pakistani Rupee (PKR)'],['NPR','🇳🇵 Nepalese Rupee (NPR)'],['LKR','🇱🇰 Sri Lankan Rupee (LKR)'],['CNY','🇨🇳 Chinese Yuan (CNY)'],['JPY','🇯🇵 Japanese Yen (JPY)'],['KRW','🇰🇷 South Korean Won (KRW)'],['AED','🇦🇪 UAE Dirham (AED)'],['SAR','🇸🇦 Saudi Riyal (SAR)'],['MYR','🇲🇾 Malaysian Ringgit (MYR)'],['SGD','🇸🇬 Singapore Dollar (SGD)'],['THB','🇹🇭 Thai Baht (THB)'],['IDR','🇮🇩 Indonesian Rupiah (IDR)'],['TRY','🇹🇷 Turkish Lira (TRY)'],['AUD','🇦🇺 Australian Dollar (AUD)'],['CAD','🇨🇦 Canadian Dollar (CAD)'],['CHF','🇨🇭 Swiss Franc (CHF)'],['NZD','🇳🇿 New Zealand Dollar (NZD)'],['QAR','🇶🇦 Qatari Riyal (QAR)'],['KWD','🇰🇼 Kuwaiti Dinar (KWD)'],['OMR','🇴🇲 Omani Rial (OMR)'],['BHD','🇧🇭 Bahraini Dinar (BHD)'],['ZAR','🇿🇦 South African Rand (ZAR)'],['EGP','🇪🇬 Egyptian Pound (EGP)'],['RUB','🇷🇺 Russian Ruble (RUB)'],['PHP','🇵🇭 Philippine Peso (PHP)']];c=`<div class="form-grid">${select('From currency','from',currencies)}${field('Amount','amount',100)}${select('To currency','to',currencies)}</div><button class="primary" id="runTool">Convert</button><div id="out"></div><p id="rateStatus" class="notice">Checking online exchange rates…</p>`;$('toolSub').textContent='Exchange rates are cached and refreshed online at most once per day. Rates are indicative; banks and exchange services may use different rates.';setTimeout(()=>loadCurrencyRates(),0);break;}
-case'unit':case'length':case'weight':case'volume':case'temp':case'speed':{
- const cats={length:[['m','Meter (m)'],['km','Kilometer (km)'],['cm','Centimeter (cm)'],['mm','Millimeter (mm)'],['mi','Mile'],['yd','Yard'],['ft','Foot'],['in','Inch']],weight:[['kg','Kilogram (kg)'],['g','Gram (g)'],['mg','Milligram (mg)'],['lb','Pound (lb)'],['oz','Ounce (oz)'],['t','Metric tonne']],volume:[['l','Liter (L)'],['ml','Milliliter (mL)'],['m3','Cubic meter (m³)'],['cm3','Cubic centimeter (cm³)'],['gal','US gallon'],['qt','US quart'],['cup','US cup']],temp:[['c','Celsius (°C)'],['f','Fahrenheit (°F)'],['k','Kelvin (K)']],speed:[['ms','Meters/second (m/s)'],['kmh','Kilometers/hour (km/h)'],['mph','Miles/hour (mph)'],['fts','Feet/second (ft/s)'],['knot','Knot']]};
- const cat=id==='unit'?'length':id; const opts=cats[cat]; c=`<div class="form-grid">${id==='unit'?select('Measurement type','category',[['length','Length'],['weight','Weight'],['volume','Volume'],['temp','Temperature'],['speed','Speed']]):''}${field('Value','val',1)}${select('Convert from','from',opts)}${select('Convert to','to',opts)}</div><button class="primary" id="runTool">Convert</button><div id="out"></div>`;
- if(id==='unit') {setTimeout(()=>{const catSel=$('category');const refresh=()=>{const type=cats[catSel.value];['from','to'].forEach(k=>{const el=$(k),prev=el.value;el.innerHTML=type.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('');if(type.some(o=>o[0]===prev))el.value=prev;});};catSel.addEventListener('change',refresh);refresh();},0)} break;
- }
-case'discount':c=form(field('Original price','price',1000)+field('Discount (%)','discount',15));break;
-case'bmr':case'calorie':c=form(field('Age','age',25)+select('Sex','sex',[['male','Male'],['female','Female']])+field('Weight (kg)','weight',70)+field('Height (cm)','height',175));break;
-case'water':c=form(field('Weight (kg)','weight',70));break;
-case'date':c=form(field('Start date','start',new Date().toISOString().slice(0,10),'date')+field('End date','end',new Date().toISOString().slice(0,10),'date'));break;
-case'time':c=form(field('Hours','hours',1)+field('Minutes','minutes',30));break;
-case'gpa':c=`<p class="sub">Enter each subject's grade point (0–5) and credit. GPA = total (grade point × credit) ÷ total credits.</p><div class="form-grid" id="subjects"></div><div class="form-grid" style="margin-top:12px"><label class="field">Number of subjects<select id="subjectCount">${[3,4,5,6,7,8,9,10,11,12].map(n=>`<option value="${n}" ${n===6?'selected':''}>${n}</option>`).join('')}</select></label></div><button class="primary" id="runTool">Calculate GPA</button><div id="out"></div>`;setTimeout(()=>{const grades=[['5','A+ (5.00)'],['4','A (4.00)'],['3.5','A- (3.50)'],['3','B (3.00)'],['2','C (2.00)'],['1','D (1.00)'],['0','F (0.00)']];const draw=()=>{const n=Number($('subjectCount').value);$('subjects').innerHTML=Array.from({length:n},(_,i)=>`<label class="field">Subject ${i+1} grade point<select class="gp">${grades.map(g=>`<option value="${g[0]}">${g[1]}</option>`).join('')}</select></label><label class="field">Subject ${i+1} credit<input class="cr" type="number" min="0.1" step="0.1" value="1"></label>`).join('')};$('subjectCount').addEventListener('change',draw);draw();},0);break;
-case'tax':c=form(field('Price before tax','price',1000)+field('Tax (%)','tax',5));break;
-case'savings':c=form(field('Monthly deposit','deposit',1000)+field('Annual interest (%)','rate',5)+field('Years','years',5));break;
-case'fuel':c=form(field('Distance (km)','distance',100)+field('Fuel use (L/100 km)','consumption',7)+field('Price per liter','fuelprice',130));break;
-case'ratio':c=form(field('First number','a',12)+field('Second number','b',18));break;
-case'average':c=form(field('Numbers (comma separated)','numbers','10,20,30','text'));break;
-case'timezone':c=`<p class="sub">Live clocks update every second. Time difference is compared with Bangladesh (Asia/Dhaka).</p><div class="form-grid">${select('Choose a time zone','zone',[['Asia/Dhaka','Bangladesh — Dhaka'],['Asia/Kolkata','India — New Delhi'],['Asia/Karachi','Pakistan — Karachi'],['Asia/Dubai','UAE — Dubai'],['Asia/Riyadh','Saudi Arabia — Riyadh'],['Europe/London','United Kingdom — London'],['Europe/Paris','France — Paris'],['Europe/Berlin','Germany — Berlin'],['Europe/Moscow','Russia — Moscow'],['America/New_York','USA — New York'],['America/Los_Angeles','USA — Los Angeles'],['America/Chicago','USA — Chicago'],['America/Toronto','Canada — Toronto'],['America/Sao_Paulo','Brazil — São Paulo'],['Asia/Tokyo','Japan — Tokyo'],['Asia/Shanghai','China — Beijing'],['Asia/Singapore','Singapore'],['Asia/Bangkok','Thailand — Bangkok'],['Asia/Jakarta','Indonesia — Jakarta'],['Australia/Sydney','Australia — Sydney'],['Pacific/Auckland','New Zealand — Auckland']])}</div><div id="zoneClocks" class="output"></div>`;setTimeout(()=>{const update=()=>{const z=$('zone')?.value;if(!z)return;const fmt=(tz)=>new Intl.DateTimeFormat('en-GB',{timeZone:tz,weekday:'short',year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date());const offset=(tz)=>{const d=new Date(),parts=new Intl.DateTimeFormat('en-US',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(d),o={};parts.forEach(p=>{if(p.type!=='literal')o[p.type]=+p.value});return Math.round((Date.UTC(o.year,o.month-1,o.day,o.hour,o.minute,o.second)-d.getTime())/60000)};const diff=offset(z)-offset('Asia/Dhaka'),sign=diff>=0?'+':'−',abs=Math.abs(diff),diffText=diff===0?'Same time as Bangladesh':`${Math.floor(abs/60)}h ${abs%60}m ${diff>0?'ahead':'behind'} Bangladesh`; $('zoneClocks').innerHTML=`<div><small>Bangladesh · Dhaka</small><br><strong>${fmt('Asia/Dhaka')}</strong></div><hr><div><small>${$('zone').selectedOptions[0].textContent}</small><br><strong>${fmt(z)}</strong><br><span>${diffText} (${sign}${Math.floor(abs/60)}:${String(abs%60).padStart(2,'0')})</span></div>`};update();const sel=$('zone');sel.addEventListener('change',update);const timer=setInterval(()=>{if(!$('zoneClocks'))clearInterval(timer);else update()},1000)},0);break;
-case'area':c=form(field('Length','length',10)+field('Width','width',5));break;
-case'electricity':c=form(field('Usage (kWh)','usage',100)+field('Rate per kWh','rate',8));break;
-default:c=form(field('Value','n',10)+field('Second value','m',5));
+
+function openTool(id){
+  if(!window.hasTemplateAccess()){
+    pendingToolId=id;
+    window.openAdGate();
+    return;
+  }
+  let t=tools.find(x=>x[3]===id)||tools[0];showPage('tool');$('toolTitle').textContent=t[0];$('toolSub').textContent=t[2];let c='';
+  switch(id){
+  case'bmi':c=form(field('Weight (kg)','w',70)+field('Height (cm)','h',175));break;
+  case'age':c=form(field('Date of birth','dob','2000-01-01','date')+field('Calculate as of','asof',new Date().toISOString().slice(0,10),'date'));break;
+  case'loan':case'emi':c=form(field('Loan amount','amount',100000)+field('Annual interest (%)','rate',9)+field('Term (years)','years',3));break;
+  case'percent':c=form(field('Percentage (%)','p',20)+field('Number','n',250));break;
+  case'tip':c=form(field('Bill amount','bill',1000)+field('Tip (%)','tip',10)+field('People','people',2));break;
+  case'currency':{const currencies=[['USD','🇺🇸 US Dollar (USD)'],['BDT','🇧🇩 Bangladeshi Taka (BDT)'],['EUR','🇪🇺 Euro (EUR)'],['GBP','🇬🇧 British Pound (GBP)'],['INR','🇮🇳 Indian Rupee (INR)'],['PKR','🇵🇰 Pakistani Rupee (PKR)'],['NPR','🇳🇵 Nepalese Rupee (NPR)'],['LKR','🇱🇰 Sri Lankan Rupee (LKR)'],['CNY','🇨🇳 Chinese Yuan (CNY)'],['JPY','🇯🇵 Japanese Yen (JPY)'],['KRW','🇰🇷 South Korean Won (KRW)'],['AED','🇦🇪 UAE Dirham (AED)'],['SAR','🇸🇦 Saudi Riyal (SAR)'],['MYR','🇲🇾 Malaysian Ringgit (MYR)'],['SGD','🇸🇬 Singapore Dollar (SGD)'],['THB','🇹🇭 Thai Baht (THB)'],['IDR','🇮🇩 Indonesian Rupiah (IDR)'],['TRY','🇹🇷 Turkish Lira (TRY)'],['AUD','🇦🇺 Australian Dollar (AUD)'],['CAD','🇨🇦 Canadian Dollar (CAD)'],['CHF','🇨🇭 Swiss Franc (CHF)'],['NZD','🇳🇿 New Zealand Dollar (NZD)'],['QAR','🇶🇦 Qatari Riyal (QAR)'],['KWD','🇰🇼 Kuwaiti Dinar (KWD)'],['OMR','🇴🇲 Omani Rial (OMR)'],['BHD','🇧🇭 Bahraini Dinar (BHD)'],['ZAR','🇿🇦 South African Rand (ZAR)'],['EGP','🇪🇬 Egyptian Pound (EGP)'],['RUB','🇷🇺 Russian Ruble (RUB)'],['PHP','🇵🇭 Philippine Peso (PHP)']];c=`<div class="form-grid">${select('From currency','from',currencies)}${field('Amount','amount',100)}${select('To currency','to',currencies)}</div><button class="primary" id="runTool">Convert</button><div id="out"></div><p id="rateStatus" class="notice">Checking online exchange rates…</p>`;$('toolSub').textContent='Exchange rates are cached and refreshed online at most once per day. Rates are indicative; banks and exchange services may use different rates.';setTimeout(()=>loadCurrencyRates(),0);break;}
+  case'unit':case'length':case'weight':case'volume':case'temp':case'speed':{
+   const cats={length:[['m','Meter (m)'],['km','Kilometer (km)'],['cm','Centimeter (cm)'],['mm','Millimeter (mm)'],['mi','Mile'],['yd','Yard'],['ft','Foot'],['in','Inch']],weight:[['kg','Kilogram (kg)'],['g','Gram (g)'],['mg','Milligram (mg)'],['lb','Pound (lb)'],['oz','Ounce (oz)'],['t','Metric tonne']],volume:[['l','Liter (L)'],['ml','Milliliter (mL)'],['m3','Cubic meter (m³)'],['cm3','Cubic centimeter (cm³)'],['gal','US gallon'],['qt','US quart'],['cup','US cup']],temp:[['c','Celsius (°C)'],['f','Fahrenheit (°F)'],['k','Kelvin (K)']],speed:[['ms','Meters/second (m/s)'],['kmh','Kilometers/hour (km/h)'],['mph','Miles/hour (mph)'],['fts','Feet/second (ft/s)'],['knot','Knot']]};
+   const cat=id==='unit'?'length':id; const opts=cats[cat]; c=`<div class="form-grid">${id==='unit'?select('Measurement type','category',[['length','Length'],['weight','Weight'],['volume','Volume'],['temp','Temperature'],['speed','Speed']]):''}${field('Value','val',1)}${select('Convert from','from',opts)}${select('Convert to','to',opts)}</div><button class="primary" id="runTool">Convert</button><div id="out"></div>`;
+   if(id==='unit') {setTimeout(()=>{const catSel=$('category');const refresh=()=>{const type=cats[catSel.value];['from','to'].forEach(k=>{const el=$(k),prev=el.value;el.innerHTML=type.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('');if(type.some(o=>o[0]===prev))el.value=prev;});};catSel.addEventListener('change',refresh);refresh();},0)} break;
+   }
+  case'discount':c=form(field('Original price','price',1000)+field('Discount (%)','discount',15));break;
+  case'bmr':case'calorie':c=form(field('Age','age',25)+select('Sex','sex',[['male','Male'],['female','Female']])+field('Weight (kg)','weight',70)+field('Height (cm)','height',175));break;
+  case'water':c=form(field('Weight (kg)','weight',70));break;
+  case'date':c=form(field('Start date','start',new Date().toISOString().slice(0,10),'date')+field('End date','end',new Date().toISOString().slice(0,10),'date'));break;
+  case'time':c=form(field('Hours','hours',1)+field('Minutes','minutes',30));break;
+  case'gpa':c=`<p class="sub">Enter each subject's grade point (0–5) and credit. GPA = total (grade point × credit) ÷ total credits.</p><div class="form-grid" id="subjects"></div><div class="form-grid" style="margin-top:12px"><label class="field">Number of subjects<select id="subjectCount">${[3,4,5,6,7,8,9,10,11,12].map(n=>`<option value="${n}" ${n===6?'selected':''}>${n}</option>`).join('')}</select></label></div><button class="primary" id="runTool">Calculate GPA</button><div id="out"></div>`;setTimeout(()=>{const grades=[['5','A+ (5.00)'],['4','A (4.00)'],['3.5','A- (3.50)'],['3','B (3.00)'],['2','C (2.00)'],['1','D (1.00)'],['0','F (0.00)']];const draw=()=>{const n=Number($('subjectCount').value);$('subjects').innerHTML=Array.from({length:n},(_,i)=>`<label class="field">Subject ${i+1} grade point<select class="gp">${grades.map(g=>`<option value="${g[0]}">${g[1]}</option>`).join('')}</select></label><label class="field">Subject ${i+1} credit<input class="cr" type="number" min="0.1" step="0.1" value="1"></label>`).join('')};$('subjectCount').addEventListener('change',draw);draw();},0);break;
+  case'tax':c=form(field('Price before tax','price',1000)+field('Tax (%)','tax',5));break;
+  case'savings':c=form(field('Monthly deposit','deposit',1000)+field('Annual interest (%)','rate',5)+field('Years','years',5));break;
+  case'fuel':c=form(field('Distance (km)','distance',100)+field('Fuel use (L/100 km)','consumption',7)+field('Price per liter','fuelprice',130));break;
+  case'ratio':c=form(field('First number','a',12)+field('Second number','b',18));break;
+  case'average':c=form(field('Numbers (comma separated)','numbers','10,20,30','text'));break;
+  case'timezone':c=`<p class="sub">Live clocks update every second. Time difference is compared with Bangladesh (Asia/Dhaka).</p><div class="form-grid">${select('Choose a time zone','zone',[['Asia/Dhaka','Bangladesh — Dhaka'],['Asia/Kolkata','India — New Delhi'],['Asia/Karachi','Pakistan — Karachi'],['Asia/Dubai','UAE — Dubai'],['Asia/Riyadh','Saudi Arabia — Riyadh'],['Europe/London','United Kingdom — London'],['Europe/Paris','France — Paris'],['Europe/Berlin','Germany — Berlin'],['Europe/Moscow','Russia — Moscow'],['America/New_York','USA — New York'],['America/Los_Angeles','USA — Los Angeles'],['America/Chicago','USA — Chicago'],['America/Toronto','Canada — Toronto'],['America/Sao_Paulo','Brazil — São Paulo'],['Asia/Tokyo','Japan — Tokyo'],['Asia/Shanghai','China — Beijing'],['Asia/Singapore','Singapore'],['Asia/Bangkok','Thailand — Bangkok'],['Asia/Jakarta','Indonesia — Jakarta'],['Australia/Sydney','Australia — Sydney'],['Pacific/Auckland','New Zealand — Auckland']])}</div><div id="zoneClocks" class="output"></div>`;setTimeout(()=>{const update=()=>{const z=$('zone')?.value;if(!z)return;const fmt=(tz)=>new Intl.DateTimeFormat('en-GB',{timeZone:tz,weekday:'short',year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date());const offset=(tz)=>{const d=new Date(),parts=new Intl.DateTimeFormat('en-US',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(d),o={};parts.forEach(p=>{if(p.type!=='literal')o[p.type]=+p.value});return Math.round((Date.UTC(o.year,o.month-1,o.day,o.hour,o.minute,o.second)-d.getTime())/60000)};const diff=offset(z)-offset('Asia/Dhaka'),sign=diff>=0?'+':'−',abs=Math.abs(diff),diffText=diff===0?'Same time as Bangladesh':`${Math.floor(abs/60)}h ${abs%60}m ${diff>0?'ahead':'behind'} Bangladesh`; $('zoneClocks').innerHTML=`<div><small>Bangladesh · Dhaka</small><br><strong>${fmt('Asia/Dhaka')}</strong></div><hr><div><small>${$('zone').selectedOptions[0].textContent}</small><br><strong>${fmt(z)}</strong><br><span>${diffText} (${sign}${Math.floor(abs/60)}:${String(abs%60).padStart(2,'0')})</span></div>`};update();const sel=$('zone');sel.addEventListener('change',update);const timer=setInterval(()=>{if(!$('zoneClocks'))clearInterval(timer);else update()},1000)},0);break;
+
+  case'area':c=form(field('Length','length',10)+field('Width','width',5));break;
+  case'electricity':c=form(field('Usage (kWh)','usage',100)+field('Rate per kWh','rate',8));break;
+  default:c=form(field('Value','n',10)+field('Second value','m',5));
+  }
+  $('toolContent').innerHTML=c;
+  $('runTool').onclick=()=>runTool(id);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-$('toolContent').innerHTML=c;
-$('runTool').onclick=()=>runTool(id);
-window.scrollTo({top:0,behavior:'smooth'});
-}
+
 function num(id){let v=Number($(id)?.value);if(!Number.isFinite(v))throw Error('Please enter valid numbers.');return v}
 function runTool(id){try{let r='';
 switch(id){
@@ -309,10 +434,12 @@ case'savings':{let d=num('deposit'),n=num('years')*12,rate=num('rate')/1200,tota
 case'fuel':{let l=num('distance')*num('consumption')/100;r=`Estimated fuel cost<br><strong>${(l*num('fuelprice')).toFixed(2)}</strong><br>Fuel needed: ${l.toFixed(2)} L`;break}
 case'ratio':{let a=num('a'),b=num('b'),g=(x,y)=>y?g(y,x%y):Math.abs(x);let d=g(a,b)||1;r=`Simplified ratio<br><strong>${a/d} : ${b/d}</strong>`;break}
 case'average':{let arr=$('numbers').value.split(',').map(Number);if(!arr.length||arr.some(x=>!Number.isFinite(x)))throw Error('Enter comma-separated numbers.');r=`Average<br><strong>${(arr.reduce((a,b)=>a+b,0)/arr.length).toFixed(3)}</strong><br>${arr.length} numbers`;break}
+
 case'area':r=`Rectangle area<br><strong>${(num('length')*num('width')).toLocaleString()} square units</strong>`;break;
 case'electricity':r=`Estimated electricity cost<br><strong>${(num('usage')*num('rate')).toFixed(2)}</strong>`;break;
 default:r=`Result<br><strong>${(num('n')+num('m')).toLocaleString()}</strong>`;
 }output(r)}catch(e){output(`<span style="color:#ff7a7a">${e.message||'Please check your input.'}</span>`)}}
+
 async function loadCurrencyRates(){
  const status=$('rateStatus');if(!status)return;const today=new Date().toISOString().slice(0,10);let cached=null;try{cached=JSON.parse(localStorage.getItem('multiCalcCurrencyRates')||'null')}catch{}
  if(cached?.date===today&&cached?.rates){window.currencyRates=cached.rates;window.currencyRateDate=cached.date;status.textContent=`Rates updated online: ${cached.date} · Cached for today`;return}
@@ -322,7 +449,6 @@ async function loadCurrencyRates(){
 }
 
 showPage('home');
-});
 </script>
 </body>
 </html>
