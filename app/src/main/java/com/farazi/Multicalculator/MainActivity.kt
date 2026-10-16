@@ -1,41 +1,37 @@
 package com.farazi.multicalculator
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.webkit.WebViewAssetLoader
-import com.google.android.gms.ads.AdError
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.startapp.sdk.adsbase.StartAppAd
+import com.startapp.sdk.adsbase.StartAppSDK
+import com.startapp.sdk.adsbase.adlisteners.AdDisplayListener
 
 class MainActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     private lateinit var assetLoader: WebViewAssetLoader
-    private lateinit var bannerAdView: AdView
-    private var bannerLoaded = false
-    private var rewardedAd: RewardedAd? = null
-    private var adLoading = false
-    private var adShowing = false
-    private var rewardEarned = false
-    private var sdkReady = false
+    private var isAdShowing = false
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Initialize Start.io SDK with App ID: 209664286
+        StartAppSDK.init(this, "209664286", false)
+        StartAppAd.disableSplash()
+
         window.statusBarColor = Color.rgb(7, 17, 28)
         window.navigationBarColor = Color.rgb(7, 17, 28)
 
@@ -43,20 +39,14 @@ class MainActivity : AppCompatActivity() {
             orientation = LinearLayout.VERTICAL
             setBackgroundColor(Color.rgb(7, 17, 28))
         }
+
         webView = WebView(this)
         root.addView(webView, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
         ))
-        // Main_Bottom_Banner: native AdMob banner, visible only on the Templates page.
-        bannerAdView = AdView(this).apply {
-            adUnitId = BuildConfig.BANNER_AD_UNIT_ID
-            setAdSize(AdSize.BANNER)
-            visibility = View.GONE
-        }
-        root.addView(bannerAdView, LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        ))
+
         setContentView(root)
+
         assetLoader = WebViewAssetLoader.Builder()
             .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(this))
             .build()
@@ -68,90 +58,76 @@ class MainActivity : AppCompatActivity() {
         webView.settings.javaScriptCanOpenWindowsAutomatically = false
         webView.settings.setSupportMultipleWindows(false)
         webView.webChromeClient = WebChromeClient()
+
         webView.webViewClient = object : WebViewClient() {
-            override fun shouldInterceptRequest(view: WebView, url: String) = assetLoader.shouldInterceptRequest(android.net.Uri.parse(url))
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean = !url.startsWith("https://appassets.androidplatform.net/")
+            override fun shouldInterceptRequest(view: WebView, url: String) = 
+                assetLoader.shouldInterceptRequest(Uri.parse(url))
+            
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                if (!url.startsWith("https://appassets.androidplatform.net/")) {
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        // Handle exception if no browser available
+                    }
+                    return true
+                }
+                return false
+            }
         }
+
         webView.addJavascriptInterface(AndroidBridge(), "Android")
         webView.loadUrl("https://appassets.androidplatform.net/assets/index.html")
-
-        Thread {
-            MobileAds.initialize(this) {
-                runOnUiThread {
-                    sdkReady = true
-                    if (::bannerAdView.isInitialized && bannerAdView.visibility == View.VISIBLE && !bannerLoaded) {
-                        bannerLoaded = true
-                        bannerAdView.loadAd(AdRequest.Builder().build())
-                    }
-                    // Do not request an ad at launch. Ads are loaded only after a user taps the reward button.
-                }
-            }
-        }.start()
     }
 
     private inner class AndroidBridge {
         @JavascriptInterface
         fun setTemplateBannerVisible(visible: Boolean) {
-            runOnUiThread {
-                bannerAdView.visibility = if (visible) View.VISIBLE else View.GONE
-                if (visible && sdkReady && !bannerLoaded) {
-                    bannerLoaded = true
-                    bannerAdView.loadAd(AdRequest.Builder().build())
-                }
-            }
+            // Main banner visibility handled by frontend/hybrid rotation if needed
         }
 
         @JavascriptInterface
         fun showRewardedAd(requestedUnitId: String?) {
             runOnUiThread {
-                if (!sdkReady) {
-                    js("window.onAdRewardFailed('Ad service is still starting. Please try again in a moment.')")
-                    return@runOnUiThread
-                }
-                if (adLoading || adShowing) {
-                    js("window.onAdRewardFailed('An ad request is already in progress. Please wait.')")
-                    return@runOnUiThread
-                }
-                loadAndShowRewardedAd()
+                if (isAdShowing) return@runOnUiThread
+                isAdShowing = true
+
+                val startAppAd = StartAppAd(this@MainActivity)
+                startAppAd.loadAd(StartAppAd.AdMode.REWARDED_VIDEO, object : com.startapp.sdk.adsbase.adlisteners.AdEventListener {
+                    override fun onReceiveAd(p0: com.startapp.sdk.adsbase.Ad) {
+                        isAdShowing = false
+                        startAppAd.showAd(object : AdDisplayListener {
+                            override fun adHidden(p0: com.startapp.sdk.adsbase.Ad) {
+                                js("window.onAdRewardEarned()")
+                            }
+                            override fun adDisplayed(p0: com.startapp.sdk.adsbase.Ad) {}
+                            override fun adClicked(p0: com.startapp.sdk.adsbase.Ad) {}
+                            override fun notDisplayed(p0: com.startapp.sdk.adsbase.Ad) {
+                                js("window.onAdRewardFailed('Ad could not be shown. Please try again.')")
+                            }
+                        })
+                    }
+
+                    override fun onFailedToReceiveAd(p0: com.startapp.sdk.adsbase.Ad?) {
+                        isAdShowing = false
+                        js("window.onAdRewardFailed('Ad could not load. Check internet and try again.')")
+                    }
+                })
             }
         }
-    }
 
-    private fun loadAndShowRewardedAd() {
-        adLoading = true
-        rewardEarned = false
-        rewardedAd = null
-        val request = AdRequest.Builder().build()
-        RewardedAd.load(this, BuildConfig.REWARDED_AD_UNIT_ID, request,
-            object : RewardedAdLoadCallback() {
-                override fun onAdFailedToLoad(error: LoadAdError) {
-                    adLoading = false
-                    rewardedAd = null
-                    js("window.onAdRewardFailed('Ad could not load. Check internet and try again.')")
+        @JavascriptInterface
+        fun openPrivacyPolicy() {
+            runOnUiThread {
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/privacy-policy-farazi-group/home"))
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    // Fallback
                 }
-
-                override fun onAdLoaded(ad: RewardedAd) {
-                    adLoading = false
-                    rewardedAd = ad
-                    ad.fullScreenContentCallback = object : FullScreenContentCallback() {
-                        override fun onAdShowedFullScreenContent() { adShowing = true }
-                        override fun onAdDismissedFullScreenContent() {
-                            adShowing = false
-                            rewardedAd = null
-                            if (!rewardEarned) js("window.onAdRewardFailed('Ad was closed before the reward was earned. Templates remain locked.')")
-                        }
-                        override fun onAdFailedToShowFullScreenContent(error: AdError) {
-                            adShowing = false
-                            rewardedAd = null
-                            js("window.onAdRewardFailed('Ad could not be shown. Please try again.')")
-                        }
-                    }
-                    ad.show(this@MainActivity) {
-                        rewardEarned = true
-                        js("window.onAdRewardEarned()")
-                    }
-                }
-            })
+            }
+        }
     }
 
     private fun js(script: String) {
@@ -170,7 +146,6 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         if (::webView.isInitialized) {
             webView.removeJavascriptInterface("Android")
-            if (::bannerAdView.isInitialized) bannerAdView.destroy()
             webView.destroy()
         }
         super.onDestroy()
