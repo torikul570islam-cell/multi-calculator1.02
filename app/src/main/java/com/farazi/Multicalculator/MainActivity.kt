@@ -2,6 +2,9 @@ package com.farazi.multicalculator
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -14,6 +17,8 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.webkit.WebViewAssetLoader
 import com.startapp.sdk.adsbase.StartAppAd
@@ -27,6 +32,27 @@ class MainActivity : AppCompatActivity() {
     private lateinit var assetLoader: WebViewAssetLoader
     private var isAdShowing = false
     private lateinit var startIoBanner: Banner
+    private val diagnosticLines = java.util.Collections.synchronizedList(mutableListOf<String>())
+
+    private fun diag(message: String, error: Boolean = false) {
+        val line = "${java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.US).format(java.util.Date())} ${if (error) "ERROR" else "INFO"}: $message"
+        diagnosticLines.add(line)
+        while (diagnosticLines.size > 100) diagnosticLines.removeAt(0)
+        if (error) Log.e(TAG, message) else Log.i(TAG, message)
+    }
+
+    private fun showDiagnostics() {
+        val details = synchronized(diagnosticLines) { diagnosticLines.joinToString("\n") }.ifBlank { "No diagnostic events recorded yet." }
+        AlertDialog.Builder(this)
+            .setTitle("Start.io Diagnostics · ${if (BuildConfig.DEBUG) "TEST/DEBUG" else "RELEASE/LIVE"}")
+            .setMessage("App ID: $START_IO_APP_ID\nAndroid: ${android.os.Build.VERSION.RELEASE} (API ${android.os.Build.VERSION.SDK_INT})\n\n$details")
+            .setPositiveButton("Copy log") { _, _ ->
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                clipboard.setPrimaryClip(ClipData.newPlainText("Farazi Start.io diagnostics", "App ID: $START_IO_APP_ID\nAndroid: ${android.os.Build.VERSION.RELEASE}\n" + synchronized(diagnosticLines) { diagnosticLines.joinToString("\n") }))
+                Toast.makeText(this, "Diagnostic log copied. Paste it into ChatGPT.", Toast.LENGTH_LONG).show()
+            }
+            .setNegativeButton("Close", null).show()
+    }
 
     companion object {
         private const val TAG = "FaraziStartIO"
@@ -43,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         StartAppSDK.initParams(applicationContext, START_IO_APP_ID)
             .setReturnAdsEnabled(false)
             .setCallback {
-                Log.i(TAG, "Start.io SDK initialization completed; debug=${BuildConfig.DEBUG}")
+                diag("Start.io SDK initialization callback received; debug=${BuildConfig.DEBUG}")
             }
             .init()
         StartAppAd.disableSplash()
@@ -63,19 +89,19 @@ class MainActivity : AppCompatActivity() {
         // Native Start.io banner with callbacks so load/display failures are visible in Logcat.
         startIoBanner = Banner(this, object : BannerListener {
             override fun onReceiveAd(view: View) {
-                Log.i(TAG, "Banner loaded successfully")
+                diag("Banner loaded successfully")
             }
 
             override fun onFailedToReceiveAd(view: View) {
-                Log.e(TAG, "Banner failed to load (no fill or network/SDK error)")
+                diag("Banner failed to load (no fill or network/SDK error)", true)
             }
 
             override fun onImpression(view: View) {
-                Log.i(TAG, "Banner impression recorded")
+                diag("Banner impression recorded")
             }
 
             override fun onClick(view: View) {
-                Log.i(TAG, "Banner clicked")
+                diag("Banner clicked")
             }
         })
         startIoBanner.visibility = View.GONE
@@ -84,6 +110,7 @@ class MainActivity : AppCompatActivity() {
         ))
 
         setContentView(root)
+        diag("App started; build=${if (BuildConfig.DEBUG) "DEBUG" else "RELEASE"}; SDK initialization requested")
 
         assetLoader = WebViewAssetLoader.Builder()
             .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(this))
@@ -95,7 +122,12 @@ class MainActivity : AppCompatActivity() {
         webView.settings.allowContentAccess = false
         webView.settings.javaScriptCanOpenWindowsAutomatically = false
         webView.settings.setSupportMultipleWindows(false)
-        webView.webChromeClient = WebChromeClient()
+        webView.webChromeClient = object : WebChromeClient() {
+            override fun onConsoleMessage(consoleMessage: android.webkit.ConsoleMessage): Boolean {
+                diag("Web ${consoleMessage.messageLevel()}: ${consoleMessage.message()} (${consoleMessage.sourceId()}:${consoleMessage.lineNumber()})", consoleMessage.messageLevel() == android.webkit.ConsoleMessage.MessageLevel.ERROR)
+                return true
+            }
+        }
 
         webView.webViewClient = object : WebViewClient() {
             override fun shouldInterceptRequest(view: WebView, url: String) = 
@@ -121,6 +153,8 @@ class MainActivity : AppCompatActivity() {
 
     private inner class AndroidBridge {
         @JavascriptInterface
+        fun showDiagnostics() { runOnUiThread { this@MainActivity.showDiagnostics() } }
+        @JavascriptInterface
         fun setTemplateBannerVisible(visible: Boolean) {
             // Legacy callback retained for compatibility.
         }
@@ -130,7 +164,7 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread {
                 if (::startIoBanner.isInitialized) {
                     startIoBanner.visibility = if (visible) View.VISIBLE else View.GONE
-                    Log.d(TAG, "Banner visibility requested: $visible")
+                    diag("Banner visibility requested: $visible")
                 }
             }
         }
@@ -139,33 +173,33 @@ class MainActivity : AppCompatActivity() {
         fun showRewardedAd(requestedUnitId: String?) {
             runOnUiThread {
                 if (isAdShowing) {
-                    Log.w(TAG, "Rewarded ad request ignored: an ad is already in progress")
+                    diag("Rewarded ad request ignored: an ad is already in progress", true)
                     return@runOnUiThread
                 }
                 isAdShowing = true
-                Log.i(TAG, "Requesting Start.io rewarded video; debug=${BuildConfig.DEBUG}")
+                diag("Requesting rewarded video; debug=${BuildConfig.DEBUG}")
 
                 val startAppAd = StartAppAd(this@MainActivity)
                 startAppAd.loadAd(StartAppAd.AdMode.REWARDED_VIDEO, object : com.startapp.sdk.adsbase.adlisteners.AdEventListener {
                     override fun onReceiveAd(p0: com.startapp.sdk.adsbase.Ad) {
-                        Log.i(TAG, "Rewarded video loaded successfully")
+                        diag("Rewarded video loaded successfully")
                         startAppAd.setVideoListener(object : VideoListener {
                             override fun onVideoCompleted() {
-                                Log.i(TAG, "Rewarded video completed; granting 7-day unlock")
+                                diag("Rewarded video completed; granting 7-day unlock")
                                 isAdShowing = false
                                 js("window.onAdRewardEarned()")
                             }
                         })
                         val shown = startAppAd.showAd()
                         if (!shown) {
-                            Log.e(TAG, "Rewarded video was loaded but showAd() returned false")
+                            diag("Rewarded video was loaded but showAd() returned false", true)
                             isAdShowing = false
                             js("window.onAdRewardFailed('Ad could not be shown. Please try again.')")
                         }
                     }
 
                     override fun onFailedToReceiveAd(p0: com.startapp.sdk.adsbase.Ad?) {
-                        Log.e(TAG, "Rewarded video failed to load; ad=$p0")
+                        diag("Rewarded video failed to load; ad=$p0", true)
                         isAdShowing = false
                         js("window.onAdRewardFailed('Start.io could not load a rewarded ad. Check Logcat for FaraziStartIO details, then try again.')")
                     }
