@@ -28,7 +28,7 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
 <div class="app" id="app">
 <header class="topbar">
  <div class="brand"><div class="brand-icon">÷</div><span>Multi Calculator</span></div>
- <div class="top-actions"><button class="ghost" id="diagnosticsBtn" type="button" onclick="try{if(window.Android&&typeof Android.showDiagnostics==='function'){Android.showDiagnostics()}else{alert('Diagnostic bridge unavailable. Rebuild using the diagnostic MainActivity.kt.')}}catch(e){alert('Could not open diagnostics: '+e)}">Debug Log</button><button class="ghost" id="historyBtn" aria-label="Calculation history">◷ History</button><button class="ghost" id="themeBtn" aria-label="Toggle theme">☼ Theme</button><button class="ghost" id="allBtn" aria-expanded="false">☷ Templates</button></div>
+ <div class="top-actions"><button class="ghost" id="historyBtn" aria-label="Calculation history">◷ History</button><button class="ghost" id="themeBtn" aria-label="Toggle theme">☼ Theme</button><button class="ghost" id="allBtn" aria-expanded="false">☷ Templates</button></div>
 </header>
 <main id="homePage">
  <section class="card calculator home-calculator" aria-label="Calculator">
@@ -57,7 +57,7 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
   <h2 class="section-title">Templates <span style="color:var(--muted);font-size:12px;font-weight:400">All calculators & converters</span></h2>
   <div class="template-grid" id="allList"></div>
   
-  <!-- Banner Ad Slot (Template list-er niche faka jagay 10:1 ratio control er sathe) -->
+  <!-- Farazi Advertising banner slot -->
   <div id="banner-ad-slot" style="margin-top: 18px; min-height: 60px; text-align: center;"></div>
  </section>
 </main>
@@ -85,7 +85,7 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
 
 </div>
 
-<!-- Firebase & 10:1 Ratio Rotation Logic Script -->
+<!-- Farazi Advertising Firebase ad logic -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, doc, collection, getDocs, getDoc, setDoc, updateDoc, increment, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -175,73 +175,17 @@ function continueToTemplates() {
   window.showPage('templates');
 }
 
-// Ratio: 10 Start.io banner opportunities, then 1 Farazi custom banner.
-// The count advances when the Templates page is opened; it is not a billing guarantee.
-async function loadBannerAdWithRatio() {
-  const bannerSlot = document.getElementById('banner-ad-slot');
-  if (!bannerSlot) return;
-  try {
-    await registerCurrentApp();
-  } catch (err) {
-    bannerSlot.innerHTML = '<p style="color:#9ca3af;font-size:11px">Ad registration unavailable.</p>';
-    return;
-  }
-  let count = Number(localStorage.getItem('farazi_ad_ratio_count') || 0);
-  if (!Number.isFinite(count) || count < 0 || count > 10) count = 0;
-
-  // In a normal browser there is no native Start.io bridge, so load a Farazi ad immediately for testing.
-  // On Android, preserve the requested 10 Start.io : 1 Farazi ratio.
-  const hasStartIoBridge = !!(window.Android && typeof window.Android.showStartIoBanner === 'function');
-  if (hasStartIoBridge && count < 10) {
-    count++;
-    localStorage.setItem('farazi_ad_ratio_count', String(count));
-    bannerSlot.innerHTML = '<p style="color:#9ca3af;font-size:11px">Advertisement</p>';
-    bannerSlot.style.display = 'block';
-    if (window.Android && typeof window.Android.showStartIoBanner === 'function') {
-      window.Android.showStartIoBanner(true);
-    }
-    return;
-  }
-
-  // After 10 Start.io placements, show one Farazi ad and reset the counter.
-  localStorage.setItem('farazi_ad_ratio_count', '0');
-  if (window.Android && typeof window.Android.showStartIoBanner === 'function') {
-    window.Android.showStartIoBanner(false);
-  }
-  try {
-    const adsSnap = await getDocs(collection(db, 'ads'));
-    const availableAds = [];
-    adsSnap.forEach(docSnap => {
-      const ad = docSnap.data();
-      if ((ad.type === 'Banner' || ad.type === 'Image') &&
-          (ad.targetApp === 'All Apps' || ad.targetApp === CURRENT_APP_ID)) {
-        availableAds.push({ id: docSnap.id, ...ad });
-      }
-    });
-    if (!availableAds.length) {
-      bannerSlot.innerHTML = '<p style="color:#9ca3af;font-size:11px">No sponsored ad available.</p>';
-      return;
-    }
-    const ad = availableAds[Math.floor(Math.random() * availableAds.length)];
-    activeAdId = ad.id;
-    activeAdUrl = ad.targetLink || '#';
-    const safeTitle = String(ad.title || 'Sponsored').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-    const safeImage = String(ad.imageUrl || '').replace(/"/g, '&quot;');
-    bannerSlot.style.display = 'block';
-    bannerSlot.innerHTML = `<div id="custom-banner-card" style="background:#182032;padding:8px;border-radius:10px;position:relative;border:1px solid #2b4562">
-      <button aria-label="Close ad" onclick="document.getElementById('custom-banner-card').style.display='none'" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,.6);color:white;border:none;border-radius:50%;width:20px;height:20px">&times;</button>
-      <div onclick="window.clickCustomBannerAd()" style="cursor:pointer;text-align:center">
-        ${safeImage ? `<img src="${safeImage}" alt="Sponsored" style="width:100%;height:75px;object-fit:cover;border-radius:6px">` : ''}
-        <p style="color:white;font-size:10px;margin:4px 0 0;font-weight:bold">${safeTitle}</p></div></div>`;
-    // Keep the ad-level totals and Admin Panel's app-wise totals in sync atomically.
-    const batch = writeBatch(db);
-    batch.update(doc(db, 'ads', activeAdId), { impressions: increment(1) });
-    batch.update(doc(db, 'registered_apps', CURRENT_APP_ID), { totalImpressions: increment(1), lastSeenAt: Date.now() });
-    await batch.commit();
-  } catch (err) {
-    console.error('Farazi banner ad load error:', err);
-    bannerSlot.innerHTML = '<p style="color:#9ca3af;font-size:11px">Ad unavailable.</p>';
-  }
+// Farazi Advertising banner only; no third-party rotation.
+async function loadBannerAd() {
+ const slot=document.getElementById('banner-ad-slot'); if(!slot)return;
+ try { await registerCurrentApp(); const snap=await getDocs(collection(db,'ads')); const list=[];
+ snap.forEach(d=>{const a=d.data(); if(['Banner','Image','Photo'].includes(a.type)&&(a.targetApp==='All Apps'||a.targetApp===CURRENT_APP_ID))list.push({id:d.id,...a});});
+ if(!list.length){slot.innerHTML='<p style="color:#9ca3af;font-size:11px">No sponsored ad available.</p>';return;}
+ const ad=list[Math.floor(Math.random()*list.length)]; activeAdId=ad.id; activeAdUrl=ad.targetLink||'#';
+ const title=String(ad.title||'Sponsored').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); const img=String(ad.imageUrl||'').replace(/"/g,'&quot;');
+ slot.style.display='block'; slot.innerHTML=`<div id="custom-banner-card" style="background:#182032;padding:8px;border-radius:10px;position:relative;border:1px solid #2b4562"><button aria-label="Close ad" onclick="document.getElementById('custom-banner-card').style.display='none'" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,.6);color:white;border:none;border-radius:50%;width:20px;height:20px">&times;</button><div onclick="window.clickCustomBannerAd()" style="cursor:pointer;text-align:center">${img?`<img src="${img}" alt="Sponsored" style="width:100%;height:75px;object-fit:cover;border-radius:6px">`:''}<p style="color:white;font-size:10px;margin:4px 0 0;font-weight:bold">${title}</p></div></div>`;
+ const batch=writeBatch(db); batch.update(doc(db,'ads',activeAdId),{impressions:increment(1)}); batch.update(doc(db,'registered_apps',CURRENT_APP_ID),{totalImpressions:increment(1),lastSeenAt:Date.now()}); await batch.commit();
+ } catch(err){console.error('Farazi banner ad load error:',err);slot.innerHTML='<p style="color:#9ca3af;font-size:11px">Ad unavailable.</p>';}
 }
 
 window.clickCustomBannerAd = async function() {
@@ -256,53 +200,28 @@ window.clickCustomBannerAd = async function() {
   }
 }
 
-// Rewarded Ad Gate Integration for Templates Unlock
-// Start.io only. AdMob is not used in this app.
-
-function startRewardedAd(){
-  const status = document.getElementById('adGateStatus');
-  const rewardedContainer = document.getElementById('firebase-rewarded-container');
-
-  if (window.hasTemplateAccess()) { 
-    continueToTemplates(); 
-    return; 
-  }
-
-  status.textContent = 'Loading rewarded ad…';
-
-  // Native Start.io Rewarded Video bridge only; AdMob is removed.
-  if (window.Android && typeof window.Android.showRewardedAd === 'function') {
-    try {
-      window.Android.showRewardedAd('startio');
-    } catch (err) {
-      status.textContent = 'Could not start the ad. Please try again.';
-    }
-  } else {
-    status.textContent = 'Rewarded ads are available in the Android app only. No access was granted.';
-  }
+// Farazi Firebase ads for the 7-day Templates unlock.
+let rewardedAdInProgress=false;
+function safeAdText(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function startRewardedAd(){
+ const status=document.getElementById('adGateStatus'), box=document.getElementById('firebase-rewarded-container');
+ if(window.hasTemplateAccess()){continueToTemplates();return;} if(rewardedAdInProgress)return; rewardedAdInProgress=true; status.textContent='Loading Farazi ad…'; box.style.display='block'; box.innerHTML='';
+ try{ await registerCurrentApp(); const snap=await getDocs(collection(db,'ads')); const list=[]; snap.forEach(d=>{const a=d.data(),t=String(a.type||'').toLowerCase();if((a.targetApp==='All Apps'||a.targetApp===CURRENT_APP_ID)&&['video','photo','image'].includes(t)&&a.imageUrl)list.push({id:d.id,...a});});
+ if(!list.length){status.textContent='No Video/Photo/Image ad found for this app. Templates remain locked.';rewardedAdInProgress=false;return;}
+ const ad=list[Math.floor(Math.random()*list.length)], type=String(ad.type||'').toLowerCase(), title=safeAdText(ad.title||'Sponsored'), media=String(ad.imageUrl||'').replace(/"/g,'&quot;'), target=String(ad.targetLink||'#'), ar=doc(db,'ads',ad.id), appRef=doc(db,'registered_apps',CURRENT_APP_ID);
+ const ib=writeBatch(db);ib.update(ar,{impressions:increment(1)});ib.update(appRef,{totalImpressions:increment(1),lastSeenAt:Date.now()});await ib.commit();
+ const visual=type==='video'?`<video id="farazi-reward-video" src="${media}" controls autoplay muted playsinline style="width:100%;max-height:45vh;background:#000;border-radius:10px"></video>`:`<img src="${media}" alt="Sponsored" style="width:100%;max-height:45vh;object-fit:contain;background:#000;border-radius:10px">`;
+ box.innerHTML=`<div style="background:#182032;padding:12px;border-radius:12px;color:white;text-align:center"><b>${title}</b>${visual}<p id="farazi-reward-status" style="font-size:12px;color:#cbd5e1">${type==='video'?'Watch until the video finishes.':'Please view this ad for 5 seconds.'}</p><button id="farazi-reward-finish" class="primary" disabled style="width:100%;opacity:.55">Ad not completed</button>${target!=='#'?'<button id="farazi-reward-visit" class="ghost" style="width:100%;margin-top:6px">Visit advertiser</button>':''}</div>`; status.textContent='Complete the ad to unlock Templates for 7 days.';
+ const finish=document.getElementById('farazi-reward-finish'), msg=document.getElementById('farazi-reward-status');
+ async function complete(){if(!rewardedAdInProgress)return;rewardedAdInProgress=false;try{const b=writeBatch(db);b.update(ar,{completedViews:increment(1)});b.update(appRef,{lastSeenAt:Date.now()});await b.commit();}catch(err){console.warn('Completion statistics could not be saved',err);}box.innerHTML='';box.style.display='none';grantRewardAndUnlock();}
+ if(type==='video'){const v=document.getElementById('farazi-reward-video');v.addEventListener('ended',()=>{finish.disabled=false;finish.style.opacity='1';finish.textContent='Continue & Unlock 7 Days';msg.textContent='Video completed. Tap below to unlock.'},{once:true});v.addEventListener('error',()=>{status.textContent='Video failed to play. Templates remain locked.';rewardedAdInProgress=false;},{once:true});finish.addEventListener('click',()=>{if(v.ended)complete();});}
+ else{let sec=5;const timer=setInterval(()=>{sec--;if(sec>0)msg.textContent=`Please view this ad for ${sec} seconds.`;else{clearInterval(timer);msg.textContent='Ad viewed. Tap below to unlock.';finish.disabled=false;finish.style.opacity='1';finish.textContent='Continue & Unlock 7 Days';}},1000);finish.addEventListener('click',()=>{if(!finish.disabled)complete();});}
+ const visit=document.getElementById('farazi-reward-visit');if(visit)visit.addEventListener('click',async()=>{try{const b=writeBatch(db);b.update(ar,{clicks:increment(1)});b.update(appRef,{totalClicks:increment(1),lastSeenAt:Date.now()});await b.commit();}catch(err){console.warn(err);}window.open(target,'_blank');});
+ }catch(err){console.error('Farazi rewarded ad error:',err);status.textContent='Could not load Farazi ad. Check internet/Firebase rules. Templates remain locked.';rewardedAdInProgress=false;}
 }
-
-window.onAdRewardEarned = function(){
-  grantRewardAndUnlock();
-};
-
-window.onAdRewardFailed = function(message){
-  document.getElementById('adGateStatus').textContent = message || 'Ad was not completed. Templates remain locked.';
-};
-
-function grantRewardAndUnlock() {
-  localStorage.setItem(TEMPLATE_UNLOCK_KEY, String(Date.now() + TEMPLATE_UNLOCK_MS));
-  const toolId = pendingToolId;
-  pendingToolId = null;
-  if (toolId) { 
-    closeAdGate(); 
-    window.openTool(toolId); 
-  } else if (pendingTemplateAccess) {
-    continueToTemplates();
-  } else {
-    closeAdGate();
-  }
-}
+window.onAdRewardEarned=()=>grantRewardAndUnlock();
+window.onAdRewardFailed=message=>{document.getElementById('adGateStatus').textContent=message||'Ad was not completed. Templates remain locked.';};
+function grantRewardAndUnlock(){localStorage.setItem(TEMPLATE_UNLOCK_KEY,String(Date.now()+TEMPLATE_UNLOCK_MS));const id=pendingToolId;pendingToolId=null;if(id){closeAdGate();window.openTool(id);}else if(pendingTemplateAccess)continueToTemplates();else closeAdGate();}
 
 document.getElementById('watchRewardAd').addEventListener('click', startRewardedAd);
 document.getElementById('cancelRewardAd').addEventListener('click', closeAdGate);
@@ -310,14 +229,13 @@ document.getElementById('adGateBackdrop').addEventListener('click', e => {
   if (e.target === document.getElementById('adGateBackdrop')) closeAdGate();
 });
 
-// Load/rotate ads only when the user actually opens Templates.
-// Start.io has no web fallback; Farazi ads are fetched from Firebase on the 11th eligible opening.
+// Load Farazi banner when Templates opens; no third-party rotation.
 let lastBannerLoadAt = 0;
 window.loadTemplateBanner = function() {
   const now = Date.now();
   if (now - lastBannerLoadAt < 800) return;
   lastBannerLoadAt = now;
-  loadBannerAdWithRatio();
+  loadBannerAd();
 };
 </script>
 
@@ -474,8 +392,6 @@ async function loadCurrencyRates(){
 }
 
 showPage('home');
-
-;
 </script>
 </body>
 </html>
