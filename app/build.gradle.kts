@@ -55,6 +55,4 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.webkit:webkit:1.14.0")
     
-    // Start.io (StartApp) SDK dependency
-    implementation("com.startapp:inapp-sdk:5.2.6")
 }
