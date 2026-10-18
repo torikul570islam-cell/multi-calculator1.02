@@ -28,7 +28,7 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
 <div class="app" id="app">
 <header class="topbar">
  <div class="brand"><div class="brand-icon">÷</div><span>Multi Calculator</span></div>
- <div class="top-actions"><button class="ghost" id="historyBtn" aria-label="Calculation history">◷ History</button><button class="ghost" id="themeBtn" aria-label="Toggle theme">☼ Theme</button><button class="ghost" id="allBtn" aria-expanded="false">☷ Templates</button></div>
+ <div class="top-actions"><button class="ghost" id="diagnosticsBtn" type="button" onclick="try{if(window.Android&&typeof Android.showDiagnostics==='function'){Android.showDiagnostics()}else{alert('Diagnostic bridge unavailable. Rebuild using the diagnostic MainActivity.kt.')}}catch(e){alert('Could not open diagnostics: '+e)}">Debug Log</button><button class="ghost" id="historyBtn" aria-label="Calculation history">◷ History</button><button class="ghost" id="themeBtn" aria-label="Toggle theme">☼ Theme</button><button class="ghost" id="allBtn" aria-expanded="false">☷ Templates</button></div>
 </header>
 <main id="homePage">
  <section class="card calculator home-calculator" aria-label="Calculator">
@@ -475,24 +475,7 @@ async function loadCurrencyRates(){
 
 showPage('home');
 
-// Diagnostic shortcut only: long-press the brand for 1.2 seconds.
-(function () {
-  const brand = document.querySelector('.brand');
-  if (!brand) return;
-  let timer = null;
-  const start = () => {
-    if (timer) clearTimeout(timer);
-    timer = setTimeout(() => {
-      try { if (window.Android && typeof Android.showDiagnostics === 'function') Android.showDiagnostics(); }
-      catch (e) { console.error('Unable to open diagnostics:', e); }
-    }, 1200);
-  };
-  const cancel = () => { if (timer) { clearTimeout(timer); timer = null; } };
-  brand.addEventListener('touchstart', start, { passive: true });
-  ['touchend', 'touchmove', 'touchcancel'].forEach(event => brand.addEventListener(event, cancel, { passive: true }));
-  brand.addEventListener('mousedown', start);
-  ['mouseup', 'mouseleave'].forEach(event => brand.addEventListener(event, cancel));
-})();
+;
 </script>
 </body>
 </html>
