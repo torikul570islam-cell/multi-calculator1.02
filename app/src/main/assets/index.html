@@ -474,6 +474,25 @@ async function loadCurrencyRates(){
 }
 
 showPage('home');
+
+// Diagnostic shortcut only: long-press the brand for 1.2 seconds.
+(function () {
+  const brand = document.querySelector('.brand');
+  if (!brand) return;
+  let timer = null;
+  const start = () => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      try { if (window.Android && typeof Android.showDiagnostics === 'function') Android.showDiagnostics(); }
+      catch (e) { console.error('Unable to open diagnostics:', e); }
+    }, 1200);
+  };
+  const cancel = () => { if (timer) { clearTimeout(timer); timer = null; } };
+  brand.addEventListener('touchstart', start, { passive: true });
+  ['touchend', 'touchmove', 'touchcancel'].forEach(event => brand.addEventListener(event, cancel, { passive: true }));
+  brand.addEventListener('mousedown', start);
+  ['mouseup', 'mouseleave'].forEach(event => brand.addEventListener(event, cancel));
+})();
 </script>
 </body>
 </html>
