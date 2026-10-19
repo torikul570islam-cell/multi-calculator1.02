@@ -16,13 +16,6 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
 @media(max-width:850px){.layout{grid-template-columns:1fr}.calculator{max-width:560px;width:100%;margin:auto}.template-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.content{grid-row:2}.templates-list{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.app{padding:10px}.topbar{padding:8px 2px 15px}.brand{font-size:17px}.brand-icon{width:36px;height:36px}.ghost{padding:9px 10px}.calculator{padding:15px;border-radius:20px}.key{height:76px}.template-grid{grid-template-columns:1fr 1fr}.template{padding:9px 7px;gap:7px}.ico{width:32px;height:32px;font-size:16px}.template strong{font-size:11px}.section,.tool-panel{padding:14px}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.templates-list{grid-template-columns:1fr}.features{grid-template-columns:1fr}.result{font-size:42px}}
 
-/* Rewarded-ad template access gate */
-.ad-gate-backdrop{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:18px;background:#020812cc;backdrop-filter:blur(5px)}
-.ad-gate-backdrop.show{display:flex}
-.ad-gate{width:min(100%,390px);padding:22px;border:1px solid #2b4562;border-radius:20px;background:linear-gradient(145deg,#132438,#081321);box-shadow:0 20px 70px #0009;text-align:center}
-.ad-gate h3{margin:0 0 9px;font-size:20px}.ad-gate p{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 16px}
-.ad-gate .primary{margin-top:0}.ad-gate .gate-cancel{margin-top:9px;width:100%}.ad-gate-status{min-height:18px;margin-top:10px;color:#9db0c8;font-size:12px}
-
 /* 3-Dot Dropdown Menu Styling */
 .menu-container{position:relative;display:inline-block;}
 .dropdown-content{display:none;position:absolute;right:0;background-color:#132235;min-width:140px;box-shadow:0px 8px 16px rgba(0,0,0,0.3);z-index:100;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
@@ -82,21 +75,11 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
  <section class="card tool-panel" id="toolPanel">
   <h2 id="toolTitle">BMI Calculator</h2><p class="sub" id="toolSub">Check your body mass index.</p>
   <div id="toolContent"></div>
+  
+  <!-- Template open korle niche automatic banner ad dekhabe -->
+  <div id="tool-banner-ad-slot" style="margin-top: 18px; min-height: 60px; text-align: center;"></div>
  </section>
 </main>
-
-<div class="ad-gate-backdrop" id="adGateBackdrop" role="dialog" aria-modal="true" aria-labelledby="adGateTitle">
- <section class="ad-gate">
-  <h3 id="adGateTitle">Unlock All Templates</h3>
-  <p>Watch one rewarded ad to unlock all calculator templates for 7 days.</p>
-  
-  <div id="firebase-rewarded-container" style="margin-bottom: 12px; display: none;"></div>
-
-  <button class="primary" id="watchRewardAd">▶ Watch Ad & Unlock 7 Days</button>
-  <div class="ad-gate-status" id="adGateStatus" aria-live="polite"></div>
-  <button class="ghost gate-cancel" id="cancelRewardAd">Not now</button>
- </section>
-</div>
 
 </div>
 
@@ -170,42 +153,11 @@ async function registerCurrentApp() {
   return appRegistrationPromise;
 }
 
-const TEMPLATE_UNLOCK_KEY = 'multiCalcTemplatesUnlockedUntil';
-const TEMPLATE_UNLOCK_MS = 7 * 24 * 60 * 60 * 1000;
-let pendingTemplateAccess = false;
-let pendingToolId = null;
 let activeAdId = null;
 let activeAdUrl = "#";
 
-window.hasTemplateAccess = function() {
-  const until = Number(localStorage.getItem(TEMPLATE_UNLOCK_KEY) || 0);
-  return Number.isFinite(until) && Date.now() < until;
-}
-
-window.openAdGate = function() {
-  pendingTemplateAccess = true;
-  document.getElementById('adGateStatus').textContent = '';
-  document.getElementById('adGateBackdrop').classList.add('show');
-}
-
-window.closeAdGate = function() {
-  document.getElementById('adGateBackdrop').classList.remove('show');
-  const slot = document.getElementById('firebase-rewarded-container');
-  if (slot) { slot.style.display = 'none'; slot.innerHTML = ''; }
-  document.getElementById('watchRewardAd').style.display = 'block';
-  document.getElementById('cancelRewardAd').style.display = 'block';
-  document.querySelector('.ad-gate h3').style.display = 'block';
-  document.querySelector('.ad-gate p').style.display = 'block';
-  pendingTemplateAccess = false;
-}
-
-function continueToTemplates() {
-  closeAdGate();
-  window.showPage('templates');
-}
-
-async function loadBannerAd() {
- const slot = document.getElementById('banner-ad-slot'); if(!slot) return;
+async function loadBannerAd(slotId) {
+ const slot = document.getElementById(slotId); if(!slot) return;
  try { 
    await registerCurrentApp(); 
    const snap = await getDocs(collection(db, 'ads')); 
@@ -231,8 +183,8 @@ async function loadBannerAd() {
    
    slot.style.display = 'block'; 
    slot.innerHTML = `
-     <div id="custom-banner-card" style="background:#182032;padding:8px;border-radius:10px;position:relative;border:1px solid #2b4562">
-       <button aria-label="Close ad" onclick="document.getElementById('custom-banner-card').style.display='none'" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,.6);color:white;border:none;border-radius:50%;width:20px;height:20px">&times;</button>
+     <div id="custom-banner-card-${slotId}" style="background:#182032;padding:8px;border-radius:10px;position:relative;border:1px solid #2b4562">
+       <button aria-label="Close ad" onclick="document.getElementById('custom-banner-card-${slotId}').style.display='none'" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,.6);color:white;border:none;border-radius:50%;width:20px;height:20px">&times;</button>
        <div onclick="window.clickCustomBannerAd()" style="cursor:pointer;text-align:center">
          ${img ? `<img src="${img}" alt="Sponsored" style="width:100%;height:75px;object-fit:cover;border-radius:6px">` : ''}
          <p style="color:white;font-size:10px;margin:4px 0 0;font-weight:bold">${title}</p>
@@ -266,126 +218,16 @@ window.clickCustomBannerAd = async function() {
   }
 }
 
-let rewardedAdInProgress = false;
-
-async function startRewardedAd(){
- const status = document.getElementById('adGateStatus'), box = document.getElementById('firebase-rewarded-container');
- if(window.hasTemplateAccess()){ continueToTemplates(); return; } 
- if(rewardedAdInProgress) return; 
- rewardedAdInProgress = true; 
- status.textContent = ''; 
- 
- // Hide text and bottom buttons inside modal, only show ad container
- document.getElementById('watchRewardAd').style.display = 'none';
- document.getElementById('cancelRewardAd').style.display = 'none';
- document.querySelector('.ad-gate h3').style.display = 'none';
- document.querySelector('.ad-gate p').style.display = 'none';
-
- box.style.display = 'block'; 
- box.innerHTML = '';
- 
- try { 
-   await registerCurrentApp(); 
-   const snap = await getDocs(collection(db,'ads')); 
-   const list = []; 
-   snap.forEach(d => {
-     const a = d.data(), t = String(a.type||'').toLowerCase();
-     if((a.targetApp === 'All Apps' || a.targetApp === CURRENT_APP_ID) && ['video','photo','image'].includes(t) && a.imageUrl) {
-       list.push({ id: d.id, ...a });
-     }
-   });
-   
-   if(!list.length){ 
-     status.textContent = 'No ad found.'; 
-     rewardedAdInProgress = false; 
-     return; 
-   }
-   
-   const ad = list[Math.floor(Math.random() * list.length)], 
-         type = String(ad.type||'').toLowerCase(), 
-         media = String(ad.imageUrl||'').replace(/"/g,'&quot;'), 
-         target = String(ad.targetLink||'#'), 
-         ar = doc(db,'ads',ad.id), 
-         appRef = doc(db,'registered_apps',CURRENT_APP_ID);
-         
-   const ib = writeBatch(db);
-   ib.update(ar,{impressions:increment(1)});
-   ib.update(appRef,{totalImpressions:increment(1),lastSeenAt:Date.now()});
-   await ib.commit();
-   
-   const visual = type === 'video' 
-     ? `<video id="farazi-reward-video" src="${media}" controls autoplay muted playsinline style="width:100%;max-height:60vh;background:#000;border-radius:12px;"></video>` 
-     : `<img src="${media}" alt="Sponsored" style="width:100%;max-height:60vh;object-fit:cover;border-radius:12px;cursor:pointer;" onclick="window.open('${target}','_blank')">`;
-     
-   box.innerHTML = `
-     <div id="reward-ad-wrapper" style="background:#081321;padding:0;border-radius:14px;position:relative;">
-       <button id="reward-close-btn" onclick="window.closeRewardedAdEarly()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.8);color:white;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:18px;z-index:20;display:none;align-items:center;justify-content:center;">&times;</button>
-       <div style="cursor:pointer;">${visual}</div>
-     </div>
-   `; 
-   
-   const closeBtn = document.getElementById('reward-close-btn');
-   
-   async function completeView(){
-     if(!rewardedAdInProgress) return;
-     rewardedAdInProgress = false;
-     try{
-       const b = writeBatch(db);
-       b.update(ar,{completedViews:increment(1)});
-       b.update(appRef,{lastSeenAt:Date.now()});
-       await b.commit();
-     }catch(err){ console.warn(err); }
-     box.innerHTML = '';
-     box.style.display = 'none';
-     grantRewardAndUnlock();
-   }
-
-   window.closeRewardedAdEarly = function(){
-     completeView();
-   };
-
-   if(type === 'video'){
-     const v = document.getElementById('farazi-reward-video');
-     setTimeout(() => { if(closeBtn) closeBtn.style.display = 'flex'; }, 5000);
-     v.addEventListener('ended', ()=>{ completeView(); }, {once:true});
-     v.addEventListener('error', ()=>{
-       rewardedAdInProgress = false;
-     }, {once:true});
-   } else {
-     setTimeout(() => {
-       if(closeBtn) closeBtn.style.display = 'flex';
-     }, 5000);
-   }
-   
- } catch(err){
-   console.error('Ad error:', err);
-   rewardedAdInProgress = false;
- }
-}
-
-window.onAdRewardEarned = () => grantRewardAndUnlock();
-window.onAdRewardFailed = message => { document.getElementById('adGateStatus').textContent = message || 'Ad was not completed.'; };
-function grantRewardAndUnlock(){
-  localStorage.setItem(TEMPLATE_UNLOCK_KEY, String(Date.now() + TEMPLATE_UNLOCK_MS));
-  const id = pendingToolId;
-  pendingToolId = null;
-  if(id){ closeAdGate(); window.openTool(id); }
-  else if(pendingTemplateAccess) continueToTemplates();
-  else closeAdGate();
-}
-
-document.getElementById('watchRewardAd').addEventListener('click', startRewardedAd);
-document.getElementById('cancelRewardAd').addEventListener('click', closeAdGate);
-document.getElementById('adGateBackdrop').addEventListener('click', e => {
-  if (e.target === document.getElementById('adGateBackdrop')) closeAdGate();
-});
-
 let lastBannerLoadAt = 0;
 window.loadTemplateBanner = function() {
   const now = Date.now();
   if (now - lastBannerLoadAt < 800) return;
   lastBannerLoadAt = now;
-  loadBannerAd();
+  loadBannerAd('banner-ad-slot');
+};
+
+window.loadToolBanner = function() {
+  loadBannerAd('tool-banner-ad-slot');
 };
 </script>
 
@@ -418,6 +260,7 @@ window.showPage = function(page){
   $('homePage').hidden=page!=='home';$('templatesPage').hidden=page!=='templates';
   $('toolPage').hidden=page!=='tool';$('historyPage').hidden=page!=='history';
   if(page==='templates' && typeof window.loadTemplateBanner==='function') window.loadTemplateBanner();
+  if(page==='tool' && typeof window.loadToolBanner==='function') window.loadToolBanner();
   $('allBtn').style.display=page==='home'?'':'none';$('historyBtn').style.display=page==='home'?'':'none';
   if(window.Android&&typeof window.Android.setTemplateBannerVisible==='function'){
     window.Android.setTemplateBannerVisible(page==='templates'||page==='tool');
@@ -466,11 +309,6 @@ function form(body,button='Calculate'){return `<div class="form-grid">${body}</d
 function output(s){$('out').innerHTML=`<div class="output">${s}</div>`;const plain=s.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();if(plain)addHistory($('toolTitle').textContent,plain);}
 
 function openTool(id){
-  if(!window.hasTemplateAccess()){
-    pendingToolId=id;
-    window.openAdGate();
-    return;
-  }
   let t=tools.find(x=>x[3]===id)||tools[0];showPage('tool');$('toolTitle').textContent=t[0];$('toolSub').textContent=t[2];let c='';
   switch(id){
   case'bmi':c=form(field('Weight (kg)','w',70)+field('Height (cm)','h',175));break;
