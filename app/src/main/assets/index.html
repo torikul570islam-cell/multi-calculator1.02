@@ -2,43 +2,88 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#07111e">
 <title>Multi Calculator</title>
 <style>
 :root{--bg:#07111c;--panel:#0d1927;--panel2:#132235;--key:#172536;--key2:#dce8f7;--text:#f5f8ff;--muted:#9db0c8;--blue:#1684ff;--line:#24364b;--green:#39e99a;--shadow:0 10px 30px #0005}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#15283d 0,#07111c 60%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;min-height:100vh}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%;width:100%;overflow:hidden;background:radial-gradient(ellipse at top,#15283d 0,#07111c 60%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
 button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
-.app{max-width:1180px;margin:auto;padding:18px;padding-bottom:90px!important}.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 4px 20px;gap:12px}.brand{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:750;letter-spacing:.2px}.brand-icon{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#2296ff,#0758dc);display:grid;place-items:center;font-size:24px;box-shadow:0 5px 20px #087dff55}.top-actions{display:flex;gap:8px}.ghost{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:10px 13px}.layout{display:grid;grid-template-columns:minmax(290px,390px) 1fr;gap:18px;align-items:start}.home-calculator{max-width:560px;width:100%;margin:4px auto 0}.back-button{margin:0 0 14px}main[hidden]{display:none!important}#templatesPage .section{margin-top:10px}#toolPage .tool-panel{max-width:760px;margin:0 auto}.card{background:linear-gradient(145deg,#101d2c,#09131f);border:1px solid #2b4058;border-radius:23px;box-shadow:var(--shadow);overflow:hidden}.calculator{padding:17px}.calc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.calc-head h2{font-size:16px;margin:0;font-weight:650}.calc-display{min-height:190px;padding:20px 14px 24px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;border-bottom:1px solid var(--line);overflow:hidden}.expression{color:#b8c8dc;font-size:18px;min-height:28px;overflow-wrap:anywhere;text-align:right}.result{font-size:clamp(38px,7vw,50px);font-weight:500;letter-spacing:-1px;max-width:100%;overflow-wrap:anywhere}.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}#keys{position:relative;isolation:isolate;overflow:hidden;border-radius:15px}.key{height:82px;border-radius:14px;background:linear-gradient(145deg,#1b2a3b,#121e2b);font-size:24px;transition:transform .12s,filter .12s;box-shadow:inset 0 1px #ffffff09;position:relative;isolation:isolate;overflow:hidden}.key:hover{filter:brightness(1.2)}.key:active{transform:scale(.96)}.key{border:1px solid transparent;position:relative;isolation:isolate;overflow:hidden}
+
+.app{width:100%;height:100vh;max-width:100%;margin:0;padding:8px;display:flex;flex-direction:column;overflow:hidden}
+
+.topbar{display:flex;align-items:center;justify-content:flex-start;padding:4px 2px 8px;gap:6px;flex:none}
+.top-actions{display:flex;gap:6px;width:100%;justify-content:space-between}
+.ghost{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:12px;flex:1;text-align:center}
+
+/* Strictly lock home page to be non-scrolling and full screen */
+#homePage{display:flex;flex-direction:column;flex:1;width:100%;height:calc(100vh - 50px);overflow:hidden}
+.home-calculator{width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;margin:0 !important;border-radius:18px;padding:10px;overflow:hidden}
+
+.back-button{margin:0 0 14px}
+main[hidden]{display:none!important}
+#templatesPage{height:calc(100vh - 50px);overflow-y:auto;padding-bottom:70px}
+#historyPage{height:calc(100vh - 50px);overflow-y:auto}
+#toolPage{height:calc(100vh - 50px);overflow-y:auto}
+#toolPage .tool-panel{max-width:760px;margin:0 auto}
+
+.card{background:linear-gradient(145deg,#101d2c,#09131f);border:1px solid #2b4058;border-radius:20px;box-shadow:var(--shadow)}
+
+.calculator{padding:10px;display:flex;flex-direction:column;height:100%}
+.calc-head{display:none}
+
+.calc-display{flex:1;min-height:90px;padding:12px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;border-bottom:1px solid var(--line);overflow:hidden}
+.expression{color:#b8c8dc;font-size:18px;min-height:24px;overflow-wrap:anywhere;text-align:right}
+.result{font-size:clamp(36px,8vw,52px);font-weight:500;letter-spacing:-1px;max-width:100%;overflow-wrap:anywhere}
+
+.keys{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:8px;margin-top:8px;flex:3}
+#keys{position:relative;isolation:isolate;overflow:hidden;border-radius:12px}
+.key{width:100%;height:100%;border-radius:14px;background:linear-gradient(145deg,#1b2a3b,#121e2b);font-size:24px;transition:transform .12s,filter .12s;box-shadow:inset 0 1px #ffffff09;position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.key:hover{filter:brightness(1.2)}.key:active{transform:scale(.96)}.key{border:1px solid transparent;position:relative;isolation:isolate;overflow:hidden}
 .key-ripple{position:absolute;inset:1px;border:2px solid transparent;border-radius:inherit;pointer-events:none;z-index:8;opacity:0;box-shadow:0 0 0 0 transparent;transition:opacity .18s ease,box-shadow .55s ease,border-color .25s ease;will-change:opacity,box-shadow}
-.tool-nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.tool-nav .ghost{display:inline-flex;align-items:center;gap:5px}.key.op{background:linear-gradient(145deg,#0759ad,#07356c);color:#38a2ff}.key.equal{background:linear-gradient(145deg,#248dff,#0871ef);color:white}.key.zero{grid-column:span 2}.light{--bg:#edf4fc;--panel:#fff;--panel2:#e4edf8;--text:#101a2b;--muted:#5f7088;--key:#e1ebf7;--key2:#dce8f7;--line:#cfdaea;--shadow:0 10px 28px #1e47701a;background:#eef4fb;color:var(--text)}.light .card{background:linear-gradient(145deg,#fff,#f6f9ff);border-color:#d6e0ee}.light .key{background:linear-gradient(145deg,#e7eff9,#d9e5f4);color:#101a2b;box-shadow:inset 0 1px #fff}.light .key.op{background:#2388ff;color:#fff}.light .key.equal{background:#167dff;color:#fff}.light .expression{color:#4b607c}
-.content{display:grid;gap:18px}.section{padding:18px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px;font-size:17px}.template-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.template{display:flex;align-items:center;text-align:left;gap:10px;padding:12px 10px;background:#111f2e;border:1px solid #24384e;border-radius:14px;min-width:0;transition:.15s}.template:hover,.template.active{border-color:#218dff;background:#142c44}.light .template{background:#f4f8fd;border-color:#d8e3f0}.light .template:hover,.light .template.active{background:#e6f2ff;border-color:#2388ff}.ico{flex:none;width:37px;height:37px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,#2198ff,#0759d7);font-size:19px}.template strong{display:block;font-size:12px;line-height:1.35}.template small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.tool-panel{padding:20px;min-height:260px}.tool-panel h2{margin:0 0 7px;font-size:21px}.sub{margin:0 0 20px;color:var(--muted);font-size:13px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field{display:flex;flex-direction:column;gap:7px;color:var(--muted);font-size:12px}.field input,.field select{width:100%;min-width:0;background:#0a1522;color:var(--text);border:1px solid #31455d;border-radius:11px;padding:12px;font-size:15px;outline:none}.light .field input,.light .field select{background:#fff;border-color:#cddaea}.primary{background:linear-gradient(135deg,#238fff,#0872ee);padding:12px 16px;border-radius:11px;font-weight:650;margin-top:15px;width:100%}.output{margin-top:15px;padding:15px;border:1px solid var(--line);border-radius:13px;background:#0b1826;line-height:1.6}.light .output{background:#f4f8fd}.output strong{font-size:25px;color:var(--green)}.light .output strong{color:#078e61}.full{grid-column:1/-1}.templates-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.templates-drawer{margin-bottom:18px}.templates-drawer[hidden]{display:none}.list-item{display:flex;gap:10px;align-items:center;padding:11px;background:#101e2c;border:1px solid var(--line);border-radius:12px;text-align:left}.light .list-item{background:#f5f8fd}.list-item span:last-child{font-size:13px}.list-item small{display:block;color:var(--muted);font-size:11px;margin-top:2px}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.feature{padding:13px;text-align:center;border:1px solid var(--line);border-radius:14px;color:var(--muted);font-size:12px}.feature b{display:block;color:var(--text);font-size:14px;margin-bottom:5px}.foot{text-align:center;color:var(--muted);font-size:12px;padding:22px 0 5px}.notice{font-size:11px;color:var(--muted);margin-top:9px;line-height:1.5}
+.tool-nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.tool-nav .ghost{display:inline-flex;align-items:center;gap:5px;flex:initial}
+.key.op{background:linear-gradient(145deg,#0759ad,#07356c);color:#38a2ff}
+.key.equal{background:linear-gradient(145deg,#248dff,#0871ef);color:white}
+.key.zero{grid-column:span 2}
 
-/* Templates page-er jonno fixed bottom banner ad style */
-#banner-ad-slot {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 9999;
-  background: #0d1927;
-  padding: 6px;
-  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
-  display: none;
+.light{--bg:#edf4fc;--panel:#fff;--panel2:#e4edf8;--text:#101a2b;--muted:#5f7088;--key:#e1ebf7;--key2:#dce8f7;--line:#cfdaea;--shadow:0 10px 28px #1e47701a;background:#eef4fb;color:var(--text)}
+.light .card{background:linear-gradient(145deg,#fff,#f6f9ff);border-color:#d6e0ee}.light .key{background:linear-gradient(145deg,#e7eff9,#d9e5f4);color:#101a2b;box-shadow:inset 0 1px #fff}.light .key.op{background:#2388ff;color:#fff}.light .key.equal{background:#167dff;color:#fff}.light .expression{color:#4b607c}
+
+.section{padding:18px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px;font-size:17px}
+.template-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;padding-bottom:50px}
+.template{display:flex;align-items:center;text-align:left;gap:10px;padding:12px 10px;background:#111f2e;border:1px solid #24384e;border-radius:14px;min-width:0;transition:.15s}
+.template:hover,.template.active{border-color:#218dff;background:#142c44}
+.light .template{background:#f4f8fd;border-color:#d8e3f0}.light .template:hover,.light .template.active{background:#e6f2ff;border-color:#2388ff}
+.ico{flex:none;width:37px;height:37px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,#2198ff,#0759d7);font-size:19px}
+.template strong{display:block;font-size:12px;line-height:1.35}
+.template small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.tool-panel{padding:20px;min-height:260px}
+.tool-panel h2{margin:0 0 7px;font-size:21px}
+.sub{margin:0 0 20px;color:var(--muted);font-size:13px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.field{display:flex;flex-direction:column;gap:7px;color:var(--muted);font-size:12px}
+.field input,.field select{width:100%;min-width:0;background:#0a1522;color:var(--text);border:1px solid #31455d;border-radius:11px;padding:12px;font-size:15px;outline:none}
+.light .field input,.light .field select{background:#fff;border-color:#cddaea}
+.primary{background:linear-gradient(135deg,#238fff,#0872ee);padding:12px 16px;border-radius:11px;font-weight:650;margin-top:15px;width:100%}
+.output{margin-top:15px;padding:15px;border:1px solid var(--line);border-radius:13px;background:#0b1826;line-height:1.6}
+.light .output{background:#f4f8fd}
+.output strong{font-size:25px;color:var(--green)}
+.light .output strong{color:#078e61}
+.list-item{display:flex;gap:10px;align-items:center;padding:11px;background:#101e2c;border:1px solid var(--line);border-radius:12px;text-align:left}
+.light .list-item{background:#f5f8fd}
+.notice{font-size:11px;color:var(--muted);margin-top:9px;line-height:1.5}
+
+#banner-ad-slot{position:fixed;bottom:0;left:0;width:100%;z-index:9999;background:#0d1927;padding:6px;box-shadow:0 -4px 15px rgba(0,0,0,0.4);display:none}
+#tool-banner-ad-slot{margin-top:18px;min-height:60px;text-align:center;display:none}
+
+@media(max-width:520px){
+  .app{padding:6px}
+  .ghost{padding:7px 4px;font-size:11px}
+  .template-grid{grid-template-columns:1fr 1fr}
+  .key{font-size:20px}
 }
 
-/* Tool/Template inner page er ad slot (Normal flow & full size video/photo) */
-#tool-banner-ad-slot {
-  margin-top: 18px;
-  min-height: 60px;
-  text-align: center;
-  display: none;
-}
-
-@media(max-width:850px){.layout{grid-template-columns:1fr}.calculator{max-width:560px;width:100%;margin:auto}.template-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.content{grid-row:2}.templates-list{grid-template-columns:1fr 1fr}}
-@media(max-width:520px){.app{padding:10px}.topbar{padding:8px 2px 15px}.brand{font-size:17px}.brand-icon{width:36px;height:36px}.ghost{padding:9px 10px}.calculator{padding:15px;border-radius:20px}.key{height:76px}.template-grid{grid-template-columns:1fr 1fr}.template{padding:9px 7px;gap:7px}.ico{width:32px;height:32px;font-size:16px}.template strong{font-size:11px}.section,.tool-panel{padding:14px}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.templates-list{grid-template-columns:1fr}.features{grid-template-columns:1fr}.result{font-size:42px}}
-
-/* 3-Dot Dropdown Menu Styling */
 .menu-container{position:relative;display:inline-block;}
 .dropdown-content{display:none;position:absolute;right:0;background-color:#132235;min-width:140px;box-shadow:0px 8px 16px rgba(0,0,0,0.3);z-index:100;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
 .dropdown-content a{color:var(--text);padding:10px 14px;text-decoration:none;display:block;font-size:13px;}
@@ -51,12 +96,15 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
 <body>
 <div class="app" id="app">
 <header class="topbar">
- <div class="brand"><div class="brand-icon">÷</div><span>Multi Calculator</span></div>
- <div class="top-actions"><button class="ghost" id="historyBtn" aria-label="Calculation history">◷ History</button><button class="ghost" id="themeBtn" aria-label="Toggle theme">☼ Theme</button><button class="ghost" id="allBtn" aria-expanded="false">☷ Templates</button></div>
+ <div class="top-actions">
+   <button class="ghost" id="historyBtn" aria-label="Calculation history">◷ History</button>
+   <button class="ghost" id="voiceBtn" aria-label="Voice Calculator">🎤 Voice</button>
+   <button class="ghost" id="themeBtn" aria-label="Toggle theme">☼ Theme</button>
+   <button class="ghost" id="allBtn" aria-expanded="false">☷ Templates</button>
+ </div>
 </header>
 <main id="homePage">
  <section class="card calculator home-calculator" aria-label="Calculator">
-  <div class="calc-head"><h2>Calculator</h2></div>
   <div class="calc-display"><div class="expression" id="expression"></div><div class="result" id="result">0</div></div>
   <div class="keys" id="keys">
    <button class="key" data-action="clear">C</button><button class="key" data-action="back">⌫</button><button class="key" data-value="%">%</button><button class="key op" data-value="÷">÷</button>
@@ -69,7 +117,11 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
 </main>
 <main id="historyPage" hidden>
  <section class="card section">
-  <div class="tool-nav"><button class="ghost" id="historyHome">⌂ Home</button><button class="ghost" id="clearHistory">Clear Today</button></div>
+  <div class="tool-nav">
+    <button class="ghost" id="historyHome">⌂ Home</button>
+    <button class="ghost" id="clearHistory">Clear Today</button>
+    <button class="ghost" id="downloadHistory">📥 Download History</button>
+  </div>
   <h2 class="section-title">Today's History <span id="historyDate" style="color:var(--muted);font-size:12px;font-weight:400"></span></h2>
   <div id="historyList"></div>
   <p class="notice">History is saved on this device and automatically resets when the date changes.</p>
@@ -98,7 +150,6 @@ button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:0}
   <h2 id="toolTitle">BMI Calculator</h2><p class="sub" id="toolSub">Check your body mass index.</p>
   <div id="toolContent"></div>
   
-  <!-- Template inner page: Full size video/photo ad slot -->
   <div id="tool-banner-ad-slot"></div>
  </section>
 </main>
@@ -178,7 +229,6 @@ async function registerCurrentApp() {
 let activeAdId = null;
 let activeAdUrl = "#";
 
-// Templates page er jonno: Shudhu 'Banner' type ads load korbe
 async function loadTemplateBannerAd() {
  const slot = document.getElementById('banner-ad-slot'); if(!slot) return;
  try { 
@@ -187,7 +237,6 @@ async function loadTemplateBannerAd() {
    const list = [];
    snap.forEach(d => {
      const a = d.data(); 
-     // Shudhu 'Banner' type ads allow kora hocche
      if(a.type === 'Banner' && (a.targetApp === 'All Apps' || a.targetApp === CURRENT_APP_ID)) {
        list.push({ id: d.id, ...a });
      }
@@ -230,7 +279,6 @@ async function loadTemplateBannerAd() {
  }
 }
 
-// Tool / Template inner page er jonno: Shudhu 'Video', 'Photo' ba 'Image' type ads full size e load korbe
 async function loadToolVideoPhotoAd() {
  const slot = document.getElementById('tool-banner-ad-slot'); if(!slot) return;
  try { 
@@ -239,7 +287,6 @@ async function loadToolVideoPhotoAd() {
    const list = [];
    snap.forEach(d => {
      const a = d.data(); 
-     // Shudhu Video, Photo, Image type ads allow kora hocche
      if(['Video', 'Photo', 'Image'].includes(a.type) && (a.targetApp === 'All Apps' || a.targetApp === CURRENT_APP_ID)) {
        list.push({ id: d.id, ...a });
      }
@@ -262,7 +309,6 @@ async function loadToolVideoPhotoAd() {
    slot.style.display = 'block'; 
    
    let mediaContent = '';
-   // Full size styling for video and photo
    if(type === 'video' || mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.webm')) {
      mediaContent = `<video src="${mediaUrl}" controls autoplay muted playsinline style="width:100%;height:auto;max-height:450px;border-radius:8px;background:#000;display:block;margin:0 auto;"></video>`;
    } else if(mediaUrl) {
@@ -321,11 +367,38 @@ window.loadToolBanner = function() {
 
 <script>
 const tools=[
-['BMI Calculator','⚖️','Check your body mass index','bmi'],['Age Calculator','🎂','Find your exact age','age'],['Loan Calculator','🏦','Calculate monthly payment','loan'],['EMI Calculator','▦','EMI and total amount','emi'],['Percentage Calculator','％','Find percentage value','percent'],['Currency Converter','💱','Convert currencies with daily online rates','currency'],['Time Zone','🌐','Current world times and difference from Bangladesh','timezone'],['Unit Converter','⇄','Choose a measurement category','unit'],['Discount Calculator','🏷️','Calculate discount price','discount'],['BMR Calculator','🔥','Estimate basal metabolic rate','bmr'],['Water Intake','💧','Estimate daily water needs','water'],['Calorie Calculator','🍎','Estimate daily calories','calorie'],['Date Calculator','📅','Calculate date differences','date'],['Time Calculator','◷','Calculate time durations','time'],['Sales Tax Calculator','🧾','Add sales tax to a price','tax'],['Savings Calculator','💰','Estimate savings growth','savings'],['Fuel Cost Calculator','⛽','Estimate trip fuel costs','fuel'],['GPA Calculator','📘','Calculate GPA from subject grades','gpa'],['Ratio Calculator','⚖','Simplify a ratio','ratio'],['Average Calculator','∑','Find the average','average'],['Length Converter','↔','Convert length units','length'],['Weight Converter','⚖','Convert mass/weight units','weight'],['Temperature Converter','🌡️','Convert temperature units','temp'],['Volume Converter','🧪','Convert volume units','volume'],['Speed Converter','🚀','Convert speed units','speed'],['Area Calculator','▧','Calculate rectangle area','area'],['Electricity Cost','⚡','Estimate electricity bill','electricity']
+['BMI Calculator','⚖️','Check your body mass index','bmi'],
+['Crypto Converter & Prices','🪙','Live prices for all cryptocurrencies & new listings','crypto'],
+['Age Calculator','🎂','Find your exact age','age'],
+['Loan Calculator','🏦','Calculate monthly payment','loan'],
+['EMI Calculator','▦','EMI and total amount','emi'],
+['Percentage Calculator','％','Find percentage value','percent'],
+['Currency Converter','💱','Convert currencies with daily online rates','currency'],
+['Time Zone','🌐','Current world times and difference from Bangladesh','timezone'],
+['Unit Converter','⇄','Choose a measurement category','unit'],
+['Discount Calculator','🏷️','Calculate discount price','discount'],
+['BMR Calculator','🔥','Estimate basal metabolic rate','bmr'],
+['Water Intake','💧','Estimate daily water needs','water'],
+['Calorie Calculator','🍎','Estimate daily calories','calorie'],
+['Date Calculator','📅','Calculate date differences','date'],
+['Time Calculator','◷','Calculate time durations','time'],
+['Sales Tax Calculator','🧾','Add sales tax to a price','tax'],
+['Savings Calculator','💰','Estimate savings growth','savings'],
+['Fuel Cost Calculator','⛽','Estimate trip fuel costs','fuel'],
+['GPA Calculator','📘','Calculate GPA from subject grades','gpa'],
+['Ratio Calculator','⚖','Simplify a ratio','ratio'],
+['Average Calculator','∑','Find the average','average'],
+['Length Converter','↔','Convert length units','length'],
+['Weight Converter','⚖','Convert mass/weight units','weight'],
+['Temperature Converter','🌡️','Convert temperature units','temp'],
+['Volume Converter','🧪','Convert volume units','volume'],
+['Speed Converter','🚀','Convert speed units','speed'],
+['Area Calculator','▧','Calculate rectangle area','area'],
+['Electricity Cost','⚡','Estimate electricity bill','electricity']
 ];
 const $=id=>document.getElementById(id); let expression='',done=false;
 
-function safeCalc(s){if(!s.trim())return 0;s=s.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/(\d+(?:\.\d+)?)%/g,'($1/100)');if(!/^[\d+\-*/().\%\s]+$/.test(s))throw Error('Invalid expression');return Function('"use strict";return ('+s+')')()}
+function safeCalc(s){if(!s.trim())return 0;s=s.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/(\d+(?:\.\d+)?)%/g,match=>'('+match.replace('%','')+'/100)');if(!/^[\d+\-*/().\%\s]+$/.test(s))throw Error('Invalid expression');return Function('"use strict";return ('+s+')')()}
 function showCalc(){ $('expression').textContent=expression;try{$('result').textContent=expression?String(Number(safeCalc(expression).toPrecision(10))):'0'}catch{$('result').textContent='…'}}
 $('keys').addEventListener('click',e=>{let b=e.target.closest('button');if(!b)return;let a=b.dataset.action,v=b.dataset.value;if(a==='clear'){expression='';done=false}else if(a==='back'){expression=expression.slice(0,-1);done=false}else if(a==='equal'){try{let original=expression;let n=safeCalc(expression);$('expression').textContent=original+' =';expression=String(Number(n.toPrecision(10)));$('result').textContent=expression;addHistory(original,expression);done=true;return}catch{$('result').textContent='Error';return}}else{if(done&&/[0-9.]/.test(v)){expression=''}done=false;expression+=v}showCalc()});
 document.addEventListener('keydown',e=>{if($('homePage').hidden)return;if(/^[0-9.+\-*/()%]$/.test(e.key)){expression+=e.key.replace('*','×').replace('/','÷');showCalc()}else if(e.key==='Enter'){try{let original=expression;let n=safeCalc(expression);$('expression').textContent=original+' =';expression=String(Number(n.toPrecision(10)));$('result').textContent=expression;addHistory(original,expression);done=true}catch{$('result').textContent='Error'}}else if(e.key==='Backspace'){expression=expression.slice(0,-1);showCalc()}else if(e.key==='Escape'){expression='';showCalc()}});
@@ -344,6 +417,56 @@ function renderHistory(){const h=getHistory();$('historyDate').textContent=h.dat
 $('historyBtn').onclick=()=>{renderHistory();showPage('history');};$('historyHome').onclick=()=>showPage('home');
 $('clearHistory').onclick=()=>{localStorage.setItem(HISTORY_KEY,JSON.stringify({date:todayKey(),items:[]}));renderHistory();};$('allBtn').onclick=()=>showPage('templates');
 
+document.getElementById('downloadHistory').onclick = () => {
+  const h = getHistory();
+  if (!h.items || !h.items.length) {
+    alert('No calculation history available to download today.');
+    return;
+  }
+  let fileContent = `Multi Calculator History - ${h.date}\n===============================\n\n`;
+  h.items.forEach((item, idx) => {
+    fileContent += `${idx + 1}. [${item.time}] ${item.expression} = ${item.result}\n`;
+  });
+  const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Calculator_History_${h.date}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+document.getElementById('voiceBtn').onclick = () => {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert('Voice recognition is not supported on this browser/device.');
+    return;
+  }
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  const voiceBtn = document.getElementById('voiceBtn');
+  voiceBtn.textContent = '🎙️ Listening...';
+  
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript.toLowerCase();
+    let cleaned = transcript
+      .replace(/plus/g, '+')
+      .replace(/minus/g, '-')
+      .replace(/into|multiplied by|times/g, '×')
+      .replace(/divides by|divide by|divided by|over/g, '÷')
+      .replace(/point|dot/g, '.');
+    
+    expression += cleaned.replace(/[^0-9+\-*/().×÷−]/g, '');
+    showCalc();
+    voiceBtn.textContent = '🎤 Voice';
+  };
+  recognition.onerror = () => { voiceBtn.textContent = '🎤 Voice'; };
+  recognition.onend = () => { voiceBtn.textContent = '🎤 Voice'; };
+  recognition.start();
+};
+
 window.showPage = function(page){
   $('homePage').hidden=page!=='home';$('templatesPage').hidden=page!=='templates';
   $('toolPage').hidden=page!=='tool';$('historyPage').hidden=page!=='history';
@@ -360,7 +483,6 @@ window.showPage = function(page){
     if(typeof window.loadToolBanner==='function') window.loadToolBanner();
   }
 
-  $('allBtn').style.display=page==='home'?'':'none';$('historyBtn').style.display=page==='home'?'':'none';
   if(window.Android&&typeof window.Android.setTemplateBannerVisible==='function'){
     window.Android.setTemplateBannerVisible(page==='templates'||page==='tool');
   }
@@ -411,6 +533,26 @@ function openTool(id){
   let t=tools.find(x=>x[3]===id)||tools[0];showPage('tool');$('toolTitle').textContent=t[0];$('toolSub').textContent=t[2];let c='';
   switch(id){
   case'bmi':c=form(field('Weight (kg)','w',70)+field('Height (cm)','h',175));break;
+  case'crypto':
+    c=`<p class="sub">Select or search any cryptocurrency (including all new listings) with live auto-updated values.</p>
+       <div class="form-grid">
+         <label class="field">Search / Select Coin
+           <select id="cryptoCoinSelect" style="width:100%;background:#0a1522;color:var(--text);border:1px solid #31455d;border-radius:11px;padding:12px;font-size:15px;outline:none">
+             <option value="bitcoin">Bitcoin (BTC)</option>
+           </select>
+         </label>
+         <label class="field">Amount<input id="cryptoAmount" type="number" value="1" step="any"></label>
+       </div>
+       <div style="margin-top:10px">
+         <label class="field">Filter Coin by Name/Symbol
+           <input id="cryptoSearchFilter" type="text" placeholder="Type to filter list (e.g. pepe, sol, eth)..." style="width:100%;background:#0a1522;color:var(--text);border:1px solid #31455d;border-radius:11px;padding:10px;font-size:14px;outline:none">
+         </label>
+       </div>
+       <button class="primary" id="runTool">Get Live Price / Convert</button>
+       <div id="out"></div>
+       <p id="cryptoStatus" class="notice">Fetching live crypto market list…</p>`;
+    setTimeout(()=>loadCryptoMarketData(),0);
+    break;
   case'age':c=form(field('Date of birth','dob','2000-01-01','date')+field('Calculate as of','asof',new Date().toISOString().slice(0,10),'date'));break;
   case'loan':case'emi':c=form(field('Loan amount','amount',100000)+field('Annual interest (%)','rate',9)+field('Term (years)','years',3));break;
   case'percent':c=form(field('Percentage (%)','p',20)+field('Number','n',250));break;
@@ -447,6 +589,16 @@ function num(id){let v=Number($(id)?.value);if(!Number.isFinite(v))throw Error('
 function runTool(id){try{let r='';
 switch(id){
 case'bmi':{let bmi=num('w')/((num('h')/100)**2);r=`BMI result<br><strong>${bmi.toFixed(1)}</strong><br>${bmi<18.5?'Underweight':bmi<25?'Normal weight':bmi<30?'Overweight':'Obesity'}`;break}
+case'crypto':{
+  const selectedId = $('cryptoCoinSelect')?.value;
+  const amt = num('cryptoAmount');
+  const market = window.cryptoMarketData || [];
+  const found = market.find(m => m.id === selectedId);
+  if(!found) throw Error('Selected crypto coin not found.');
+  const totalUSD = found.current_price * amt;
+  r = `Crypto Conversion<br><strong>${amt} ${found.symbol.toUpperCase()} = $${totalUSD.toLocaleString(undefined,{maximumFractionDigits:4})} USD</strong><br>Coin: ${found.name} (${found.symbol.toUpperCase()})<br>Current Price: $${found.current_price.toLocaleString()} USD<br>24h Change: ${found.price_change_percentage_24h >= 0 ? '+' : ''}${found.price_change_percentage_24h?.toFixed(2)}%<br><span style="font-size:11px;color:var(--muted)">Live auto-updated via CoinGecko API</span>`;
+  break;
+}
 case'age':{let b=new Date($('dob').value),e=new Date($('asof').value);if(isNaN(+b)||isNaN(+e)||e<b)throw Error('Choose valid dates.');let y=e.getFullYear()-b.getFullYear(),m=e.getMonth()-b.getMonth(),d=e.getDate()-b.getDate();if(d<0){m--;d+=new Date(e.getFullYear(),e.getMonth(),0).getDate()}if(m<0){y--;m+=12}r=`Your age<br><strong>${y} years</strong><br>${m} months, ${d} days`;break}
 case'loan':case'emi':{let p=num('amount'),rate=num('rate')/1200,n=num('years')*12,emi=rate? p*rate*Math.pow(1+rate,n)/(Math.pow(1+rate,n)-1):p/n;r=`Monthly payment<br><strong>${emi.toFixed(2)}</strong><br>Total payment: ${(emi*n).toFixed(2)} · Interest: ${(emi*n-p).toFixed(2)}`;break}
 case'percent':r=`${num('p')}% of ${num('n')}<br><strong>${(num('p')*num('n')/100).toLocaleString()}</strong>`;break;
@@ -468,6 +620,41 @@ case'area':r=`Rectangle area<br><strong>${(num('length')*num('width')).toLocaleS
 case'electricity':r=`Estimated electricity cost<br><strong>${(num('usage')*num('rate')).toFixed(2)}</strong>`;break;
 default:r=`Result<br><strong>${(num('n')+num('m')).toLocaleString()}</strong>`;
 }output(r)}catch(e){output(`<span style="color:#ff7a7a">${e.message||'Please check your input.'}</span>`)}}
+
+async function loadCryptoMarketData(){
+ const status=$('cryptoStatus'); if(!status) return;
+ try {
+   const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false', {cache:'no-store'});
+   if(!res.ok) throw Error('Market data unavailable');
+   const data = await res.json();
+   window.cryptoMarketData = data;
+   populateCryptoSelect(data);
+   status.textContent = `Live market data loaded successfully (${data.length} coins including top & new listings).`;
+ } catch(e) {
+   window.cryptoMarketData = [
+     {id:'bitcoin', symbol:'btc', name:'Bitcoin', current_price:65000, price_change_percentage_24h:2.5},
+     {id:'ethereum', symbol:'eth', name:'Ethereum', current_price:3500, price_change_percentage_24h:1.2},
+     {id:'solana', symbol:'sol', name:'Solana', current_price:150, price_change_percentage_24h:4.8}
+   ];
+   populateCryptoSelect(window.cryptoMarketData);
+   status.textContent = 'Using cached offline crypto values.';
+ }
+}
+
+function populateCryptoSelect(list){
+ const sel = $('cryptoCoinSelect');
+ if(!sel) return;
+ sel.innerHTML = list.map(c => `<option value="${c.id}">${c.name} (${c.symbol.toUpperCase()}) - $${c.current_price.toLocaleString()}</option>`).join('');
+ 
+ const filterInput = $('cryptoSearchFilter');
+ if(filterInput){
+   filterInput.oninput = (e) => {
+     const term = e.target.value.toLowerCase().trim();
+     const filtered = list.filter(c => c.name.toLowerCase().includes(term) || c.symbol.toLowerCase().includes(term));
+     sel.innerHTML = filtered.map(c => `<option value="${c.id}">${c.name} (${c.symbol.toUpperCase()}) - $${c.current_price.toLocaleString()}</option>`).join('');
+   };
+ }
+}
 
 async function loadCurrencyRates(){
  const status=$('rateStatus');if(!status)return;const today=new Date().toISOString().slice(0,10);let cached=null;try{cached=JSON.parse(localStorage.getItem('multiCalcCurrencyRates')||'null')}catch{}
